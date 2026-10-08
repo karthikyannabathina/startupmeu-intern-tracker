@@ -9,6 +9,7 @@ import {
   getStats,
   createApplication,
   updateApplication,
+  deleteApplication,
 } from './services/applicationService.js';
 import './App.css';
 
@@ -27,10 +28,15 @@ function App() {
   const [error, setError]               = useState(null);
 
   // ── Form state ────────────────────────────────────────────────
-  const [showForm, setShowForm]               = useState(false);
+  const [showForm, setShowForm]                     = useState(false);
   const [editingApplication, setEditingApplication] = useState(null);
-  const [isSubmitting, setIsSubmitting]       = useState(false);
-  const [formError, setFormError]             = useState(null);
+  const [isSubmitting, setIsSubmitting]             = useState(false);
+  const [formError, setFormError]                   = useState(null);
+
+  // ── Delete state ──────────────────────────────────────────────
+  // Holds the _id of the application currently being deleted,
+  // or null when no deletion is in progress.
+  const [deletingId, setDeletingId] = useState(null);
 
   // ── Data fetchers ─────────────────────────────────────────────
   const fetchStats = useCallback(() => {
@@ -70,7 +76,7 @@ function App() {
     return () => { cancelled = true; };
   }, [search, statusFilter, fetchApplications]);
 
-  // ── Shared close helper ───────────────────────────────────────
+  // ── Shared form-close helper ──────────────────────────────────
   const closeForm = () => {
     setShowForm(false);
     setEditingApplication(null);
@@ -91,7 +97,7 @@ function App() {
     setShowForm(true);
   };
 
-  // ── Submit handler (create or update) ────────────────────────
+  // ── Create / update handler ───────────────────────────────────
   const handleSubmit = async (payload) => {
     setIsSubmitting(true);
     setFormError(null);
@@ -108,6 +114,21 @@ function App() {
       setFormError(err.message);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // ── Delete handler ────────────────────────────────────────────
+  const handleDelete = async (id) => {
+    setDeletingId(id);
+    setError(null);
+    try {
+      await deleteApplication(id);
+      fetchApplications(search, statusFilter);
+      fetchStats();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -141,6 +162,8 @@ function App() {
             <ApplicationList
               applications={applications}
               onEdit={handleEdit}
+              onDelete={handleDelete}
+              deletingId={deletingId}
             />
           )}
         </div>

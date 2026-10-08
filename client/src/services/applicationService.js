@@ -98,3 +98,23 @@ export async function updateApplication(id, data) {
 
   return body.data;
 }
+
+/**
+ * Delete an application by ID.
+ *
+ * @param {string} id - The application's MongoDB _id
+ * @returns {Promise<Object>} The deleted application document
+ */
+export async function deleteApplication(id) {
+  const res = await fetch(`${BASE}/${id}`, {
+    method: 'DELETE',
+  });
+
+  const body = await res.json();
+
+  if (!body.success) {
+    throw new Error(body.message || 'Failed to delete application');
+  }
+
+  return body.data;
+}
