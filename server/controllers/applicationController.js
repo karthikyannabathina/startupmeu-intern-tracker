@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Application = require('../models/Application');
 const { sendSuccess, sendError } = require('../utils/apiResponse');
+const escapeRegex = require('../utils/escapeRegex');
 
 const getAllApplications = async (req, res, next) => {
   try {
