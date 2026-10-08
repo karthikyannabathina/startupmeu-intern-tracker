@@ -213,3 +213,24 @@
     min-width: unset;
   }
 }
+
+/* ── Loading state ───────────────────────────────────────────── */
+.loading-state {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 3rem 2rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+
+/* ── Error banner ────────────────────────────────────────────── */
+.error-banner {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius);
+  padding: 0.875rem 1.25rem;
+  color: #b91c1c;
+  font-size: 0.9375rem;
+}
