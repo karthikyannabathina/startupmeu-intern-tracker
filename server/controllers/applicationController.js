@@ -65,7 +65,30 @@ const createApplication = async (req, res, next) => {
 };
 
 const updateApplication = async (req, res, next) => {
-  res.status(501).json({ success: false, message: 'Not implemented yet' });
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return sendError(res, 'Invalid application ID', 400);
+    }
+
+    // Strip immutable fields so a client cannot overwrite Mongoose-managed metadata
+    const { _id, createdAt, updatedAt, ...updateData } = req.body;
+
+    const application = await Application.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!application) {
+      return sendError(res, 'Application not found', 404);
+    }
+
+    return sendSuccess(res, application, 'Application updated successfully');
+  } catch (error) {
+    next(error);
+  }
 };
 
 const updateApplicationStatus = async (req, res, next) => {
