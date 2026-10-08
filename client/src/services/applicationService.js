@@ -53,3 +53,25 @@ export async function getStats() {
 
   return body.data;
 }
+
+/**
+ * Create a new application.
+ *
+ * @param {Object} data - Application fields from the form
+ * @returns {Promise<Object>} The created application document
+ */
+export async function createApplication(data) {
+  const res = await fetch(BASE, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(data),
+  });
+
+  const body = await res.json();
+
+  if (!body.success) {
+    throw new Error(body.message || 'Failed to create application');
+  }
+
+  return body.data;
+}

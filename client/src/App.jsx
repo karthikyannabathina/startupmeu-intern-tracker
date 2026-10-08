@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header.jsx';
 import StatsCards from './components/StatsCards.jsx';
 import ApplicationFilters from './components/ApplicationFilters.jsx';
 import ApplicationList from './components/ApplicationList.jsx';
-import { getApplications, getStats } from './services/applicationService.js';
+import ApplicationForm from './components/ApplicationForm.jsx';
+import { getApplications, getStats, createApplication } from './services/applicationService.js';
 import './App.css';
 
 function App() {
   // ── Filter state ──────────────────────────────────────────────
-  const [search, setSearch]           = useState('');
+  const [search, setSearch]             = useState('');
   const [statusFilter, setStatusFilter] = useState('');
 
   // ── Data state ────────────────────────────────────────────────
@@ -20,15 +21,16 @@ function App() {
   const [loadingStats, setLoadingStats] = useState(true);
   const [error, setError]               = useState(null);
 
-  // ── Fetch stats once on mount ─────────────────────────────────
-  useEffect(() => {
-    let cancelled = false;
+  // ── Form state ────────────────────────────────────────────────
+  const [showForm, setShowForm]         = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError]       = useState(null);
 
+  // ── Data fetchers (wrapped in useCallback so effects can list them) ──
+  const fetchStats = useCallback(() => {
     setLoadingStats(true);
-    getStats()
+    return getStats()
       .then((data) => {
-        if (cancelled) return;
-        // Map backend shape → StatsCards shape
         setStats({
           total:     data.total,
           applied:   data.byStatus.Applied   ?? 0,
@@ -36,45 +38,61 @@ function App() {
           offer:     data.byStatus.Offer     ?? 0,
         });
       })
-      .catch((err) => {
-        if (!cancelled) setError(err.message);
-      })
-      .finally(() => {
-        if (!cancelled) setLoadingStats(false);
-      });
-
-    return () => { cancelled = true; };
+      .catch((err) => setError(err.message))
+      .finally(() => setLoadingStats(false));
   }, []);
+
+  const fetchApplications = useCallback((q, s) => {
+    setLoadingApps(true);
+    setError(null);
+    return getApplications(q, s)
+      .then((data) => setApplications(data))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoadingApps(false));
+  }, []);
+
+  // ── Fetch stats once on mount ─────────────────────────────────
+  useEffect(() => {
+    let cancelled = false;
+    fetchStats().then(() => { if (cancelled) return; });
+    return () => { cancelled = true; };
+  }, [fetchStats]);
 
   // ── Fetch applications on mount and whenever filters change ───
   useEffect(() => {
     let cancelled = false;
-
-    setLoadingApps(true);
-    setError(null);
-
-    getApplications(search, statusFilter)
-      .then((data) => {
-        if (!cancelled) setApplications(data);
-      })
-      .catch((err) => {
-        if (!cancelled) setError(err.message);
-      })
-      .finally(() => {
-        if (!cancelled) setLoadingApps(false);
-      });
-
+    fetchApplications(search, statusFilter).then(() => { if (cancelled) return; });
     return () => { cancelled = true; };
-  }, [search, statusFilter]);
+  }, [search, statusFilter, fetchApplications]);
 
-  // ── Handlers ──────────────────────────────────────────────────
+  // ── Form handlers ─────────────────────────────────────────────
   const handleAddClick = () => {
-    // Add Application modal/form wired in a later phase
+    setFormError(null);
+    setShowForm(true);
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+    setFormError(null);
+  };
+
+  const handleCreate = async (payload) => {
+    setIsSubmitting(true);
+    setFormError(null);
+    try {
+      await createApplication(payload);
+      setShowForm(false);
+      // Refresh both list and stats so the UI reflects the new record immediately
+      fetchApplications(search, statusFilter);
+      fetchStats();
+    } catch (err) {
+      setFormError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // ── Render ────────────────────────────────────────────────────
-  const isLoading = loadingApps || loadingStats;
-
   return (
     <div className="layout">
       <Header onAddClick={handleAddClick} />
@@ -105,6 +123,15 @@ function App() {
           )}
         </div>
       </main>
+
+      {showForm && (
+        <ApplicationForm
+          onSubmit={handleCreate}
+          onCancel={handleCancel}
+          isSubmitting={isSubmitting}
+          apiError={formError}
+        />
+      )}
     </div>
   );
 }
