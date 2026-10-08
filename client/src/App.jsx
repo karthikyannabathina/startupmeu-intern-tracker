@@ -34,8 +34,6 @@ function App() {
   const [formError, setFormError]                   = useState(null);
 
   // ── Delete state ──────────────────────────────────────────────
-  // Holds the _id of the application currently being deleted,
-  // or null when no deletion is in progress.
   const [deletingId, setDeletingId] = useState(null);
 
   // ── Data fetchers ─────────────────────────────────────────────
@@ -75,6 +73,16 @@ function App() {
     fetchApplications(search, statusFilter).then(() => { if (cancelled) return; });
     return () => { cancelled = true; };
   }, [search, statusFilter, fetchApplications]);
+
+  // ── Escape key closes the form ────────────────────────────────
+  useEffect(() => {
+    if (!showForm) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && !isSubmitting) closeForm();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showForm, isSubmitting]);
 
   // ── Shared form-close helper ──────────────────────────────────
   const closeForm = () => {
@@ -132,6 +140,9 @@ function App() {
     }
   };
 
+  // ── Derived state ─────────────────────────────────────────────
+  const filtersActive = search.trim() !== '' || statusFilter !== '';
+
   // ── Render ────────────────────────────────────────────────────
   return (
     <div className="layout">
@@ -143,6 +154,11 @@ function App() {
             <strong>Error:</strong> {error}
           </div>
         )}
+
+        <div className="page-title">
+          <h1 className="page-title__heading">Dashboard</h1>
+          <p className="page-title__sub">Track and manage your internship applications.</p>
+        </div>
 
         <StatsCards stats={loadingStats ? null : stats} />
 
@@ -156,6 +172,7 @@ function App() {
 
           {loadingApps ? (
             <div className="loading-state" aria-live="polite">
+              <span className="loading-spinner" aria-hidden="true" />
               Loading applications…
             </div>
           ) : (
@@ -164,6 +181,7 @@ function App() {
               onEdit={handleEdit}
               onDelete={handleDelete}
               deletingId={deletingId}
+              filtersActive={filtersActive}
             />
           )}
         </div>

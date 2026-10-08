@@ -25,6 +25,35 @@ const EMPTY_FORM = {
 // Very simple URL check — protocol optional, must have a dot in the host
 const URL_RE = /^(https?:\/\/)?[\w-]+(\.[\w-]+)+(\/\S*)?$/i;
 
+/**
+ * MongoDB stores dates as ISO strings ("2024-03-15T00:00:00.000Z").
+ * <input type="date"> requires "YYYY-MM-DD".
+ * Returns an empty string for null/undefined values.
+ */
+function toDateInputValue(iso) {
+  if (!iso) return '';
+  return iso.slice(0, 10); // "YYYY-MM-DD" is always the first 10 chars
+}
+
+/**
+ * Build the initial field state from an existing application document.
+ * Falls back to EMPTY_FORM values for any field that is missing/null.
+ */
+function buildInitialFields(data) {
+  if (!data) return EMPTY_FORM;
+  return {
+    company:     data.company     ?? '',
+    role:        data.role        ?? '',
+    status:      data.status      ?? 'Wishlist',
+    appliedDate: toDateInputValue(data.appliedDate),
+    deadline:    toDateInputValue(data.deadline),
+    jobUrl:      data.jobUrl      ?? '',
+    location:    data.location    ?? '',
+    salary:      data.salary != null ? String(data.salary) : '',
+    notes:       data.notes       ?? '',
+  };
+}
+
 function validate(fields) {
   const errors = {};
   if (!fields.company.trim())  errors.company = 'Company is required.';
@@ -38,8 +67,20 @@ function validate(fields) {
   return errors;
 }
 
-function ApplicationForm({ onSubmit, onCancel, isSubmitting, apiError }) {
-  const [fields, setFields] = useState(EMPTY_FORM);
+/**
+ * ApplicationForm — shared between Add and Edit modes.
+ *
+ * Props:
+ *   initialData  {Object|null}  — existing application document (edit) or null (add)
+ *   onSubmit     {Function}     — called with the cleaned payload object
+ *   onCancel     {Function}     — called when the user dismisses the form
+ *   isSubmitting {boolean}      — disables inputs and shows loading text on submit button
+ *   apiError     {string|null}  — API-level error message to display inside the form
+ */
+function ApplicationForm({ initialData = null, onSubmit, onCancel, isSubmitting, apiError }) {
+  const isEditing = initialData !== null;
+
+  const [fields, setFields] = useState(() => buildInitialFields(initialData));
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -75,14 +116,16 @@ function ApplicationForm({ onSubmit, onCancel, isSubmitting, apiError }) {
     <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="form-title">
       <div className="modal">
         <div className="modal__header">
-          <h2 className="modal__title" id="form-title">Add Application</h2>
+          <h2 className="modal__title" id="form-title">
+            {isEditing ? 'Edit Application' : 'Add Application'}
+          </h2>
           <button
             className="modal__close"
             onClick={onCancel}
             aria-label="Close form"
             disabled={isSubmitting}
           >
-            ✕
+            &times;
           </button>
         </div>
 
@@ -106,7 +149,6 @@ function ApplicationForm({ onSubmit, onCancel, isSubmitting, apiError }) {
                 onChange={handleChange}
                 placeholder="e.g. Google"
                 disabled={isSubmitting}
-                autoFocus
               />
               {errors.company && <p className="app-form__error">{errors.company}</p>}
             </div>
@@ -255,7 +297,9 @@ function ApplicationForm({ onSubmit, onCancel, isSubmitting, apiError }) {
               className="btn btn--primary"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Saving…' : 'Save Application'}
+              {isSubmitting
+                ? (isEditing ? 'Updating…' : 'Saving…')
+                : (isEditing ? 'Update Application' : 'Save Application')}
             </button>
           </div>
         </form>

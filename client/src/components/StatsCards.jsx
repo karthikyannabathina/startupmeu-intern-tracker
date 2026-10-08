@@ -1,8 +1,8 @@
 const STATS = [
-  { label: 'Total Applications', key: 'total' },
-  { label: 'Applied',            key: 'applied' },
-  { label: 'Interviews',         key: 'interview' },
-  { label: 'Offers',             key: 'offer' },
+  { label: 'Total',      key: 'total' },
+  { label: 'Applied',    key: 'applied' },
+  { label: 'Interviews', key: 'interview' },
+  { label: 'Offers',     key: 'offer' },
 ];
 
 function StatsCards({ stats }) {
