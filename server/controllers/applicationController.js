@@ -147,7 +147,34 @@ const deleteApplication = async (req, res, next) => {
 };
 
 const getStats = async (req, res, next) => {
-  res.status(501).json({ success: false, message: 'Not implemented yet' });
+  try {
+    // Single aggregation pass: group by status and count each bucket
+    const [totalResult, statusCounts] = await Promise.all([
+      Application.countDocuments(),
+      Application.aggregate([
+        { $group: { _id: '$status', count: { $sum: 1 } } },
+      ]),
+    ]);
+
+    // Build byStatus with a guaranteed 0 for every defined status,
+    // then overwrite with real counts from the aggregation result
+    const byStatus = Application.STATUSES.reduce((acc, s) => {
+      acc[s] = 0;
+      return acc;
+    }, {});
+
+    statusCounts.forEach(({ _id, count }) => {
+      if (_id in byStatus) byStatus[_id] = count;
+    });
+
+    return sendSuccess(
+      res,
+      { total: totalResult, byStatus },
+      'Statistics retrieved successfully'
+    );
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {

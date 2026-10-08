@@ -7,10 +7,15 @@ const {
   updateApplication,
   updateApplicationStatus,
   deleteApplication,
+  getStats,
 } = require('../controllers/applicationController');
 
 // GET /api/applications                  — list all (supports ?search= and ?status=)
 router.get('/', getAllApplications);
+
+// GET /api/applications/stats            — aggregate counts by status
+// MUST be declared before /:id so "stats" is not captured as an ID param
+router.get('/stats', getStats);
 
 // POST /api/applications                 — create a new application
 router.post('/', createApplication);
