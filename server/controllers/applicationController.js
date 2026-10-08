@@ -92,7 +92,38 @@ const updateApplication = async (req, res, next) => {
 };
 
 const updateApplicationStatus = async (req, res, next) => {
-  res.status(501).json({ success: false, message: 'Not implemented yet' });
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return sendError(res, 'Invalid application ID', 400);
+    }
+
+    const { status } = req.body;
+
+    // Validate presence and value before touching the DB
+    if (!status || !Application.STATUSES.includes(status)) {
+      return sendError(
+        res,
+        `Invalid or missing status. Must be one of: ${Application.STATUSES.join(', ')}`,
+        400
+      );
+    }
+
+    const application = await Application.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true, runValidators: true }
+    );
+
+    if (!application) {
+      return sendError(res, 'Application not found', 404);
+    }
+
+    return sendSuccess(res, application, 'Application status updated successfully');
+  } catch (error) {
+    next(error);
+  }
 };
 
 const deleteApplication = async (req, res, next) => {
