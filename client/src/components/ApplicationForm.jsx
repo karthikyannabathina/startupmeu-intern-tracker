@@ -209,7 +209,7 @@ function ApplicationForm({ onSubmit, onCancel, isSubmitting, apiError }) {
             </div>
 
             <div className="app-form__field">
-              <label className="app-form__label" htmlFor="salary">Salary (USD / yr)</label>
+              <label className="app-form__label" htmlFor="salary">Salary / Stipend</label>
               <input
                 id="salary"
                 name="salary"

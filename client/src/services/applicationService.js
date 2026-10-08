@@ -75,3 +75,26 @@ export async function createApplication(data) {
 
   return body.data;
 }
+
+/**
+ * Update an existing application.
+ *
+ * @param {string} id   - The application's MongoDB _id
+ * @param {Object} data - Updated application fields
+ * @returns {Promise<Object>} The updated application document
+ */
+export async function updateApplication(id, data) {
+  const res = await fetch(`${BASE}/${id}`, {
+    method:  'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(data),
+  });
+
+  const body = await res.json();
+
+  if (!body.success) {
+    throw new Error(body.message || 'Failed to update application');
+  }
+
+  return body.data;
+}

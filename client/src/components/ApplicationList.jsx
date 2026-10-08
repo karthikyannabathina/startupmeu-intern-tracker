@@ -1,4 +1,4 @@
-function ApplicationList({ applications }) {
+function ApplicationList({ applications, onEdit }) {
   const isEmpty = !applications || applications.length === 0;
 
   return (
@@ -14,11 +14,19 @@ function ApplicationList({ applications }) {
           </p>
         </div>
       ) : (
-        // Application rows rendered here in a later phase
         <ul className="app-list__items">
           {applications.map((app) => (
             <li key={app._id} className="app-list__item">
-              {app.company} — {app.role}
+              <span className="app-list__item-text">
+                {app.company} — {app.role}
+              </span>
+              <button
+                className="btn btn--ghost app-list__item-action"
+                onClick={() => onEdit(app)}
+                aria-label={`Edit ${app.company} – ${app.role}`}
+              >
+                Edit
+              </button>
             </li>
           ))}
         </ul>

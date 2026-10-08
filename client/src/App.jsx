@@ -4,7 +4,12 @@ import StatsCards from './components/StatsCards.jsx';
 import ApplicationFilters from './components/ApplicationFilters.jsx';
 import ApplicationList from './components/ApplicationList.jsx';
 import ApplicationForm from './components/ApplicationForm.jsx';
-import { getApplications, getStats, createApplication } from './services/applicationService.js';
+import {
+  getApplications,
+  getStats,
+  createApplication,
+  updateApplication,
+} from './services/applicationService.js';
 import './App.css';
 
 function App() {
@@ -22,11 +27,12 @@ function App() {
   const [error, setError]               = useState(null);
 
   // ── Form state ────────────────────────────────────────────────
-  const [showForm, setShowForm]         = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formError, setFormError]       = useState(null);
+  const [showForm, setShowForm]               = useState(false);
+  const [editingApplication, setEditingApplication] = useState(null);
+  const [isSubmitting, setIsSubmitting]       = useState(false);
+  const [formError, setFormError]             = useState(null);
 
-  // ── Data fetchers (wrapped in useCallback so effects can list them) ──
+  // ── Data fetchers ─────────────────────────────────────────────
   const fetchStats = useCallback(() => {
     setLoadingStats(true);
     return getStats()
@@ -51,38 +57,51 @@ function App() {
       .finally(() => setLoadingApps(false));
   }, []);
 
-  // ── Fetch stats once on mount ─────────────────────────────────
+  // ── Fetch on mount and filter changes ─────────────────────────
   useEffect(() => {
     let cancelled = false;
     fetchStats().then(() => { if (cancelled) return; });
     return () => { cancelled = true; };
   }, [fetchStats]);
 
-  // ── Fetch applications on mount and whenever filters change ───
   useEffect(() => {
     let cancelled = false;
     fetchApplications(search, statusFilter).then(() => { if (cancelled) return; });
     return () => { cancelled = true; };
   }, [search, statusFilter, fetchApplications]);
 
-  // ── Form handlers ─────────────────────────────────────────────
+  // ── Shared close helper ───────────────────────────────────────
+  const closeForm = () => {
+    setShowForm(false);
+    setEditingApplication(null);
+    setFormError(null);
+  };
+
+  // ── Add handler ───────────────────────────────────────────────
   const handleAddClick = () => {
     setFormError(null);
+    setEditingApplication(null);
     setShowForm(true);
   };
 
-  const handleCancel = () => {
-    setShowForm(false);
+  // ── Edit handler ──────────────────────────────────────────────
+  const handleEdit = (application) => {
     setFormError(null);
+    setEditingApplication(application);
+    setShowForm(true);
   };
 
-  const handleCreate = async (payload) => {
+  // ── Submit handler (create or update) ────────────────────────
+  const handleSubmit = async (payload) => {
     setIsSubmitting(true);
     setFormError(null);
     try {
-      await createApplication(payload);
-      setShowForm(false);
-      // Refresh both list and stats so the UI reflects the new record immediately
+      if (editingApplication) {
+        await updateApplication(editingApplication._id, payload);
+      } else {
+        await createApplication(payload);
+      }
+      closeForm();
       fetchApplications(search, statusFilter);
       fetchStats();
     } catch (err) {
@@ -119,15 +138,19 @@ function App() {
               Loading applications…
             </div>
           ) : (
-            <ApplicationList applications={applications} />
+            <ApplicationList
+              applications={applications}
+              onEdit={handleEdit}
+            />
           )}
         </div>
       </main>
 
       {showForm && (
         <ApplicationForm
-          onSubmit={handleCreate}
-          onCancel={handleCancel}
+          initialData={editingApplication}
+          onSubmit={handleSubmit}
+          onCancel={closeForm}
           isSubmitting={isSubmitting}
           apiError={formError}
         />
