@@ -6,6 +6,7 @@ const {
   createApplication,
   updateApplication,
   updateApplicationStatus,
+  deleteApplication,
 } = require('../controllers/applicationController');
 
 // GET /api/applications                  — list all (supports ?search= and ?status=)
@@ -22,5 +23,8 @@ router.put('/:id', updateApplication);
 
 // PATCH /api/applications/:id/status     — update status only
 router.patch('/:id/status', updateApplicationStatus);
+
+// DELETE /api/applications/:id           — delete an application
+router.delete('/:id', deleteApplication);
 
 module.exports = router;

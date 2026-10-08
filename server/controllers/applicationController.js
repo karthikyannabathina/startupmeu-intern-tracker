@@ -127,7 +127,23 @@ const updateApplicationStatus = async (req, res, next) => {
 };
 
 const deleteApplication = async (req, res, next) => {
-  res.status(501).json({ success: false, message: 'Not implemented yet' });
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return sendError(res, 'Invalid application ID', 400);
+    }
+
+    const application = await Application.findByIdAndDelete(id);
+
+    if (!application) {
+      return sendError(res, 'Application not found', 404);
+    }
+
+    return sendSuccess(res, application, 'Application deleted successfully');
+  } catch (error) {
+    next(error);
+  }
 };
 
 const getStats = async (req, res, next) => {
