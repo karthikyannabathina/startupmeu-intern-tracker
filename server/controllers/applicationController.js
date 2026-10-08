@@ -56,7 +56,12 @@ const getApplicationById = async (req, res, next) => {
 };
 
 const createApplication = async (req, res, next) => {
-  res.status(501).json({ success: false, message: 'Not implemented yet' });
+  try {
+    const application = await Application.create(req.body);
+    return sendSuccess(res, application, 'Application created successfully', 201);
+  } catch (error) {
+    next(error);
+  }
 };
 
 const updateApplication = async (req, res, next) => {
