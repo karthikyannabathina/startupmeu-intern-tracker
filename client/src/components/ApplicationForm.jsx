@@ -1,38 +1,41 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const STATUSES = [
-  'Wishlist',
-  'Applied',
-  'Assessment',
-  'Interview',
-  'Offer',
-  'Rejected',
-  'Withdrawn',
+  "Wishlist",
+  "Applied",
+  "Assessment",
+  "Interview",
+  "Offer",
+  "Rejected",
+  "Withdrawn",
 ];
 
 const EMPTY_FORM = {
-  company:     '',
-  role:        '',
-  status:      'Wishlist',
-  appliedDate: '',
-  deadline:    '',
-  jobUrl:      '',
-  location:    '',
-  salary:      '',
-  notes:       '',
+  company: "",
+  role: "",
+  status: "Wishlist",
+  appliedDate: "",
+  deadline: "",
+  jobUrl: "",
+  location: "",
+  salary: "",
+  notes: "",
 };
 
-// Very simple URL check — protocol optional, must have a dot in the host
+// Adds https:// if the user omitted the protocol, so the server (which requires it) accepts the URL
 function normalizeUrl(value) {
   const v = value.trim();
-  if (!v) return '';
+  if (!v) return "";
   return /^https?:\/\//i.test(v) ? v : `https://${v}`;
 }
 
 function isValidUrl(value) {
   try {
     const url = new URL(value);
-    return (url.protocol === 'http:' || url.protocol === 'https:') && url.hostname.includes('.');
+    return (
+      (url.protocol === "http:" || url.protocol === "https:") &&
+      url.hostname.includes(".")
+    );
   } catch {
     return false;
   }
@@ -44,7 +47,7 @@ function isValidUrl(value) {
  * Returns an empty string for null/undefined values.
  */
 function toDateInputValue(iso) {
-  if (!iso) return '';
+  if (!iso) return "";
   return iso.slice(0, 10); // "YYYY-MM-DD" is always the first 10 chars
 }
 
@@ -55,27 +58,30 @@ function toDateInputValue(iso) {
 function buildInitialFields(data) {
   if (!data) return EMPTY_FORM;
   return {
-    company:     data.company     ?? '',
-    role:        data.role        ?? '',
-    status:      data.status      ?? 'Wishlist',
+    company: data.company ?? "",
+    role: data.role ?? "",
+    status: data.status ?? "Wishlist",
     appliedDate: toDateInputValue(data.appliedDate),
-    deadline:    toDateInputValue(data.deadline),
-    jobUrl:      data.jobUrl      ?? '',
-    location:    data.location    ?? '',
-    salary:      data.salary != null ? String(data.salary) : '',
-    notes:       data.notes       ?? '',
+    deadline: toDateInputValue(data.deadline),
+    jobUrl: data.jobUrl ?? "",
+    location: data.location ?? "",
+    salary: data.salary != null ? String(data.salary) : "",
+    notes: data.notes ?? "",
   };
 }
 
 function validate(fields) {
   const errors = {};
-  if (!fields.company.trim())  errors.company = 'Company is required.';
-  if (!fields.role.trim())     errors.role    = 'Role is required.';
+  if (!fields.company.trim()) errors.company = "Company is required.";
+  if (!fields.role.trim()) errors.role = "Role is required.";
   if (fields.jobUrl.trim() && !isValidUrl(normalizeUrl(fields.jobUrl))) {
-  errors.jobUrl = 'Please enter a valid URL.';
-}
-  if (fields.salary !== '' && (isNaN(Number(fields.salary)) || Number(fields.salary) < 0)) {
-    errors.salary = 'Salary must be a non-negative number.';
+    errors.jobUrl = "Please enter a valid URL.";
+  }
+  if (
+    fields.salary !== "" &&
+    (isNaN(Number(fields.salary)) || Number(fields.salary) < 0)
+  ) {
+    errors.salary = "Salary must be a non-negative number.";
   }
   return errors;
 }
@@ -90,7 +96,13 @@ function validate(fields) {
  *   isSubmitting {boolean}      — disables inputs and shows loading text on submit button
  *   apiError     {string|null}  — API-level error message to display inside the form
  */
-function ApplicationForm({ initialData = null, onSubmit, onCancel, isSubmitting, apiError }) {
+function ApplicationForm({
+  initialData = null,
+  onSubmit,
+  onCancel,
+  isSubmitting,
+  apiError,
+}) {
   const isEditing = initialData !== null;
 
   const [fields, setFields] = useState(() => buildInitialFields(initialData));
@@ -111,31 +123,47 @@ function ApplicationForm({ initialData = null, onSubmit, onCancel, isSubmitting,
       return;
     }
 
-    // Build the payload — omit empty optional fields so the backend
-    // applies its own defaults rather than receiving empty strings
+    // Add https:// if the user left out the protocol (the server requires it)
     const payload = { ...fields };
     payload.jobUrl = normalizeUrl(payload.jobUrl);
-    
-['appliedDate', 'deadline', 'jobUrl', 'location', 'salary', 'notes'].forEach((key) => {
-  const value = typeof payload[key] === 'string' ? payload[key].trim() : payload[key];
-  if (value === '') {
-    if (isEditing) payload[key] = null; // clear the value in MongoDB
-    else delete payload[key];           // let backend defaults apply
-  } else {
-    payload[key] = value;
-  }
-});
-if (payload.salary != null) payload.salary = Number(payload.salary);
+
+    // Empty optional fields: send null when editing (so they clear in MongoDB),
+    // omit when creating
+
+    [
+      "appliedDate",
+      "deadline",
+      "jobUrl",
+      "location",
+      "salary",
+      "notes",
+    ].forEach((key) => {
+      const value =
+        typeof payload[key] === "string" ? payload[key].trim() : payload[key];
+      if (value === "") {
+        if (isEditing)
+          payload[key] = null; // clear the value in MongoDB
+        else delete payload[key]; // let backend defaults apply
+      } else {
+        payload[key] = value;
+      }
+    });
+    if (payload.salary != null) payload.salary = Number(payload.salary);
 
     onSubmit(payload);
   };
 
   return (
-    <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="form-title">
+    <div
+      className="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="form-title"
+    >
       <div className="modal">
         <div className="modal__header">
           <h2 className="modal__title" id="form-title">
-            {isEditing ? 'Edit Application' : 'Add Application'}
+            {isEditing ? "Edit Application" : "Add Application"}
           </h2>
           <button
             className="modal__close"
@@ -149,7 +177,9 @@ if (payload.salary != null) payload.salary = Number(payload.salary);
 
         <form className="app-form" onSubmit={handleSubmit} noValidate>
           {apiError && (
-            <p className="app-form__api-error" role="alert">{apiError}</p>
+            <p className="app-form__api-error" role="alert">
+              {apiError}
+            </p>
           )}
 
           {/* ── Row 1: Company + Role ── */}
@@ -162,13 +192,15 @@ if (payload.salary != null) payload.salary = Number(payload.salary);
                 id="company"
                 name="company"
                 type="text"
-                className={`app-form__input${errors.company ? ' app-form__input--error' : ''}`}
+                className={`app-form__input${errors.company ? " app-form__input--error" : ""}`}
                 value={fields.company}
                 onChange={handleChange}
                 placeholder="e.g. Google"
                 disabled={isSubmitting}
               />
-              {errors.company && <p className="app-form__error">{errors.company}</p>}
+              {errors.company && (
+                <p className="app-form__error">{errors.company}</p>
+              )}
             </div>
 
             <div className="app-form__field">
@@ -179,7 +211,7 @@ if (payload.salary != null) payload.salary = Number(payload.salary);
                 id="role"
                 name="role"
                 type="text"
-                className={`app-form__input${errors.role ? ' app-form__input--error' : ''}`}
+                className={`app-form__input${errors.role ? " app-form__input--error" : ""}`}
                 value={fields.role}
                 onChange={handleChange}
                 placeholder="e.g. Software Engineer Intern"
@@ -192,7 +224,9 @@ if (payload.salary != null) payload.salary = Number(payload.salary);
           {/* ── Row 2: Status + Location ── */}
           <div className="app-form__row">
             <div className="app-form__field">
-              <label className="app-form__label" htmlFor="status">Status</label>
+              <label className="app-form__label" htmlFor="status">
+                Status
+              </label>
               <select
                 id="status"
                 name="status"
@@ -202,13 +236,17 @@ if (payload.salary != null) payload.salary = Number(payload.salary);
                 disabled={isSubmitting}
               >
                 {STATUSES.map((s) => (
-                  <option key={s} value={s}>{s}</option>
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
                 ))}
               </select>
             </div>
 
             <div className="app-form__field">
-              <label className="app-form__label" htmlFor="location">Location</label>
+              <label className="app-form__label" htmlFor="location">
+                Location
+              </label>
               <input
                 id="location"
                 name="location"
@@ -225,7 +263,9 @@ if (payload.salary != null) payload.salary = Number(payload.salary);
           {/* ── Row 3: Applied Date + Deadline ── */}
           <div className="app-form__row">
             <div className="app-form__field">
-              <label className="app-form__label" htmlFor="appliedDate">Applied Date</label>
+              <label className="app-form__label" htmlFor="appliedDate">
+                Applied Date
+              </label>
               <input
                 id="appliedDate"
                 name="appliedDate"
@@ -238,7 +278,9 @@ if (payload.salary != null) payload.salary = Number(payload.salary);
             </div>
 
             <div className="app-form__field">
-              <label className="app-form__label" htmlFor="deadline">Deadline</label>
+              <label className="app-form__label" htmlFor="deadline">
+                Deadline
+              </label>
               <input
                 id="deadline"
                 name="deadline"
@@ -254,40 +296,50 @@ if (payload.salary != null) payload.salary = Number(payload.salary);
           {/* ── Row 4: Job URL + Salary ── */}
           <div className="app-form__row">
             <div className="app-form__field">
-              <label className="app-form__label" htmlFor="jobUrl">Job URL</label>
+              <label className="app-form__label" htmlFor="jobUrl">
+                Job URL
+              </label>
               <input
                 id="jobUrl"
                 name="jobUrl"
                 type="url"
-                className={`app-form__input${errors.jobUrl ? ' app-form__input--error' : ''}`}
+                className={`app-form__input${errors.jobUrl ? " app-form__input--error" : ""}`}
                 value={fields.jobUrl}
                 onChange={handleChange}
                 placeholder="https://jobs.example.com/..."
                 disabled={isSubmitting}
               />
-              {errors.jobUrl && <p className="app-form__error">{errors.jobUrl}</p>}
+              {errors.jobUrl && (
+                <p className="app-form__error">{errors.jobUrl}</p>
+              )}
             </div>
 
             <div className="app-form__field">
-              <label className="app-form__label" htmlFor="salary">Salary / Stipend</label>
+              <label className="app-form__label" htmlFor="salary">
+                Salary / Stipend
+              </label>
               <input
                 id="salary"
                 name="salary"
                 type="number"
                 min="0"
-                className={`app-form__input${errors.salary ? ' app-form__input--error' : ''}`}
+                className={`app-form__input${errors.salary ? " app-form__input--error" : ""}`}
                 value={fields.salary}
                 onChange={handleChange}
                 placeholder="e.g. 75000"
                 disabled={isSubmitting}
               />
-              {errors.salary && <p className="app-form__error">{errors.salary}</p>}
+              {errors.salary && (
+                <p className="app-form__error">{errors.salary}</p>
+              )}
             </div>
           </div>
 
           {/* ── Notes (full width) ── */}
           <div className="app-form__field">
-            <label className="app-form__label" htmlFor="notes">Notes</label>
+            <label className="app-form__label" htmlFor="notes">
+              Notes
+            </label>
             <textarea
               id="notes"
               name="notes"
@@ -316,8 +368,12 @@ if (payload.salary != null) payload.salary = Number(payload.salary);
               disabled={isSubmitting}
             >
               {isSubmitting
-                ? (isEditing ? 'Updating…' : 'Saving…')
-                : (isEditing ? 'Update Application' : 'Save Application')}
+                ? isEditing
+                  ? "Updating…"
+                  : "Saving…"
+                : isEditing
+                  ? "Update Application"
+                  : "Save Application"}
             </button>
           </div>
         </form>
