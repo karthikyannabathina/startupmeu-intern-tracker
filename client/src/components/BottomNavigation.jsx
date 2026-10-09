@@ -1,3 +1,4 @@
+
 import { NavLink } from "react-router-dom";
 import {
 House,
@@ -5,6 +6,7 @@ Search,
 ClipboardList,
 UserRound,
 } from "lucide-react";
+import "./BottomNavigation.css";
 
 const navigation = [
 { label: "Home", path: "/", Icon: House },

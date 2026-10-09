@@ -1,8 +1,8 @@
-import './Dashboard.css';
+import "./Dashboard.css";
 
-import StatsCards from './StatsCards.jsx';
-import ApplicationFilters from './ApplicationFilters.jsx';
-import ApplicationList from './ApplicationList.jsx';
+import StatsCards from "./StatsCards.jsx";
+import ApplicationFilters from "./ApplicationFilters.jsx";
+import ApplicationList from "./ApplicationList.jsx";
 
 function Dashboard({
   search,
@@ -18,8 +18,7 @@ function Dashboard({
   handleDelete,
   handleEdit,
 }) {
-  const filtersActive =
-    search.trim() !== '' || statusFilter !== '';
+  const filtersActive = search.trim() !== "" || statusFilter !== "";
 
   return (
     <main className="main">
@@ -30,7 +29,11 @@ function Dashboard({
       )}
 
       <section className="page-title">
-        <h1 className="page-title__heading">Dashboard</h1>
+        <h1 className="page-title__heading">
+          <span className="page-title__greeting">👋 Good morning,</span>
+          <span className="page-title__name">Karthik</span>
+        </h1>
+
         <p className="page-title__sub">
           Track and manage your internship applications.
         </p>

@@ -354,3 +354,446 @@
 .app-list__item-action {
   flex-shrink: 0;
 }
+
+
+/* Mobile application list */
+@media (max-width: 520px) {
+  .app-list {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 13px 10px;
+    overflow: hidden;
+    border-radius: 14px;
+  }
+
+  .app-list__heading {
+    margin-bottom: 14px;
+    font-size: 1rem;
+  }
+
+  .app-list__table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border: 0;
+  }
+
+  .app-list__table {
+    width: 100%;
+    min-width: 680px;
+    border-collapse: collapse;
+  }
+
+  .app-list__table th,
+  .app-list__table td {
+    padding: 12px 10px;
+    font-size: 0.8rem;
+  }
+
+  .app-list__company-cell {
+    gap: 8px;
+    min-width: 125px;
+  }
+
+  .app-avatar {
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .app-list__item-actions {
+    min-width: 120px;
+    gap: 6px;
+  }
+
+  .app-list__item-action {
+    min-height: 34px;
+    height: 34px;
+    padding: 0 9px;
+  }
+}
+
+/* =========================================
+   MOBILE APPLICATION TABLE FIX
+   ========================================= */
+
+@media (max-width: 520px) {
+  .app-list {
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+    overflow: hidden;
+  }
+
+  .app-list__table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border: 0;
+    border-radius: 8px;
+  }
+
+  .app-list__table {
+    width: 100%;
+    min-width: 650px;
+    table-layout: auto;
+    border-collapse: collapse;
+  }
+
+  .app-list__table th,
+  .app-list__table td {
+    padding: 12px 10px;
+    white-space: normal;
+    vertical-align: middle;
+  }
+
+  .app-list__company-cell {
+    min-width: 125px;
+    gap: 8px;
+  }
+
+  .app-list__company {
+    max-width: 100px;
+    overflow-wrap: anywhere;
+  }
+
+  .app-list__table-role {
+    min-width: 145px;
+    max-width: 180px;
+    overflow-wrap: anywhere;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    max-width: 100%;
+    white-space: nowrap;
+    font-size: 0.72rem;
+    padding: 5px 8px;
+  }
+}
+
+/* ==========================================
+   MOBILE APPLICATION CARDS
+   ========================================== */
+
+/* Hidden by default on desktop */
+.app-list__mobile {
+  display: none;
+}
+
+@media (max-width: 520px) {
+  .app-list {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 12px 9px;
+    overflow: hidden;
+    border-radius: 14px;
+  }
+
+  .app-list__heading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 12px;
+    font-size: 1rem;
+  }
+
+  /* Hide table on mobile */
+  .app-list__table-wrapper {
+    display: none;
+  }
+
+  /* Show mobile cards */
+  .app-list__mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .application-card {
+    min-width: 0;
+    padding: 11px 9px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e7edf5;
+    border-radius: 13px;
+    box-shadow: 0 2px 5px rgb(15 23 42 / 4%);
+    color: #111827;
+  }
+
+  .application-card--deleting {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .application-card__main {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+  }
+
+  /* Company logo / initial */
+  .application-card__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 38px;
+    flex-shrink: 0;
+    color: #2563eb;
+    background: #f8fafc;
+    border: 1px solid #e5edf7;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  /* Company and role */
+  .application-card__details {
+    min-width: 0;
+  }
+
+  .application-card__company {
+    margin: 0;
+    color: #111827;
+    font-size: 0.78rem;
+    font-weight: 750;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .application-card__role {
+    margin: 2px 0 0;
+    color: #64748b;
+    font-size: 0.68rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  /* Location and date */
+  .application-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3px 8px;
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 0.61rem;
+    line-height: 1.4;
+  }
+
+  .application-card__location {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .application-card__pin {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
+  }
+
+  .application-card__date {
+    white-space: nowrap;
+  }
+
+  /* Status and arrow */
+  .application-card__right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    align-self: stretch;
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .application-card .status-badge {
+    max-width: 100%;
+    padding: 4px 7px;
+    font-size: 0.61rem;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .status-badge--offer {
+    color: #07834f;
+    background: #e7f9ef;
+    border-color: #c2f0d5;
+  }
+
+  .status-badge--applied {
+    color: #1764e8;
+    background: #eaf2ff;
+    border-color: #d5e5ff;
+  }
+
+  .status-badge--interview {
+    color: #b45309;
+    background: #fff3dc;
+    border-color: #ffe4b0;
+  }
+
+  .status-badge--assessment {
+    color: #9a6700;
+    background: #fff7d6;
+    border-color: #f8e7a0;
+  }
+
+  .status-badge--wishlist {
+    color: #475569;
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+  }
+
+  .status-badge--rejected {
+    color: #be123c;
+    background: #fff0f2;
+    border-color: #ffd5dd;
+  }
+
+  .status-badge--withdrawn {
+    color: #475569;
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+  }
+
+  .application-card__open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    margin-top: auto;
+    padding: 0;
+    color: #8ba0bc;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .application-card__open svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .application-card__open:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  /* Keep edit/delete available without cluttering the card */
+  .application-card__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    padding-top: 7px;
+    border-top: 1px solid #edf1f6;
+  }
+
+  .application-card__actions .app-list__item-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .application-card__actions .app-list__item-action {
+    min-height: 29px;
+    height: auto;
+    padding: 5px 9px;
+    font-size: 0.68rem;
+  }
+}
+
+/* Very narrow phones */
+@media (max-width: 360px) {
+  .app-list {
+    padding: 10px 7px;
+  }
+
+  .application-card {
+    padding: 9px 7px;
+  }
+
+  .application-card__main {
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    gap: 7px;
+  }
+
+  .application-card__avatar {
+    width: 30px;
+    height: 34px;
+    font-size: 0.9rem;
+  }
+
+  .application-card__company {
+    font-size: 0.73rem;
+  }
+
+  .application-card__role {
+    font-size: 0.64rem;
+  }
+
+  .application-card__meta {
+    font-size: 0.57rem;
+    gap: 3px 5px;
+  }
+
+  .application-card .status-badge {
+    padding: 4px 5px;
+    font-size: 0.56rem;
+  }
+}
+
+/* Dark mobile application cards */
+@media (max-width: 520px) {
+  .application-card {
+    background: #111c2e;
+    border: 1px solid #202f46;
+    box-shadow: none;
+  }
+
+  .application-card__avatar {
+    color: #bfdbfe;
+    background: #172a44;
+    border-color: #29466c;
+  }
+
+  .application-card__company {
+    color: #f1f5f9;
+  }
+
+  .application-card__role {
+    color: #a5b4cc;
+  }
+
+  .application-card__meta {
+    color: #8fa4c2;
+  }
+
+  .application-card__right .status-badge {
+    /* Keep the existing status-specific colors */
+    font-weight: 600;
+  }
+
+  .application-card__actions {
+    border-top-color: #26354b;
+  }
+
+  .application-card__open {
+    color: #93b4df;
+  }
+}
+

@@ -1,9 +1,5 @@
 
-/* ==========================================================
-   HEADER
-   Brand identity and Add Application action
-   ========================================================== */
-
+/* HEADER */
 .header {
   display: flex;
   align-items: center;
@@ -36,7 +32,7 @@
   line-height: 1.4;
 }
 
-/* Header action button */
+/* Add Application button */
 .header .btn--primary {
   display: inline-flex;
   flex-shrink: 0;
@@ -67,36 +63,77 @@
   transform: translateY(1px);
 }
 
-/* Responsive header */
-@media (max-width: 600px) {
+/* Tablet */
+@media (max-width: 768px) {
   .header {
-    gap: 12px;
-    padding: 16px;
+    gap: 14px;
+    padding: 18px 20px;
+  }
+}
+
+
+/* Mobile Header */
+@media (max-width: 520px) {
+  .header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 15px 14px;
+  }
+
+  .header__brand {
+    flex: 1;
+    min-width: 0;
   }
 
   .header__logo {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 
   .header__subtitle {
-    font-size: 0.72rem;
+    display: none;
   }
 
   .header .btn--primary {
-    min-height: 40px;
-    padding: 9px 11px;
+    width: auto;
+    min-height: 42px;
+    padding: 9px 12px;
+    border-radius: 10px;
     font-size: 0.8rem;
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 360px) {
   .header {
-    align-items: flex-start;
-    flex-direction: column;
+    padding: 13px 10px;
+  }
+
+  .header__logo {
+    font-size: 1.15rem;
   }
 
   .header .btn--primary {
-    width: 100%;
+    min-height: 40px;
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+}
+
+.header__logo-accent {
+  color: #3b82f6;
+}
+
+@media (max-width: 520px) {
+  .header {
+    position: relative;
+    z-index: 5;
+    box-sizing: border-box;
+    padding: 13px 14px;
+  }
+
+  .header .btn--primary {
+    min-height: 40px;
   }
 }
 

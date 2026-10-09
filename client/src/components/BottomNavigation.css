@@ -1,0 +1,93 @@
+
+/* ==========================================
+   BOTTOM NAVIGATION
+   ========================================== */
+
+.bottom-nav {
+  display: none;
+}
+
+/* Mobile navigation */
+@media (max-width: 520px) {
+  .bottom-nav {
+    position: fixed;
+    z-index: 1000;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+
+    width: 100%;
+    padding: 10px 8px max(10px, env(safe-area-inset-bottom));
+
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    box-shadow: 0 -5px 20px rgb(15 23 42 / 8%);
+  }
+
+  .bottom-nav__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    min-width: 0;
+    min-height: 48px;
+    padding: 4px 2px;
+
+    color: #64748b;
+    text-decoration: none;
+    border-radius: 10px;
+
+    font-size: 0.68rem;
+    font-weight: 500;
+    line-height: 1.2;
+
+    transition:
+      color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .bottom-nav__item svg {
+    width: 21px;
+    height: 21px;
+    flex-shrink: 0;
+  }
+
+  .bottom-nav__item--active {
+    color: #1670ff;
+    font-weight: 650;
+  }
+
+  .bottom-nav__item--active svg {
+    stroke-width: 2.3;
+  }
+
+  .bottom-nav__item:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 360px) {
+  .bottom-nav {
+    padding-right: 4px;
+    padding-left: 4px;
+  }
+
+  .bottom-nav__item {
+    gap: 4px;
+    font-size: 0.63rem;
+  }
+
+  .bottom-nav__item svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+

@@ -124,3 +124,187 @@ to {
 transform: rotate(360deg);
 }
 }
+
+/* ==========================================================
+   MOBILE DASHBOARD IMPROVEMENTS
+   ========================================================== */
+
+@media (max-width: 520px) {
+  .main {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    gap: 20px;
+    padding: 18px 12px 100px;
+    overflow-x: clip;
+  }
+
+  .page-title {
+    margin-bottom: 0;
+  }
+
+  .page-title__heading {
+    font-size: 1.55rem;
+    line-height: 1.25;
+    letter-spacing: -0.04em;
+  }
+
+  .page-title__sub {
+    max-width: 100%;
+    margin-top: 7px;
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+
+  .applications-panel {
+    width: 100%;
+    min-width: 0;
+    gap: 14px;
+  }
+
+  .error-banner {
+    padding: 12px;
+    font-size: 0.875rem;
+    overflow-wrap: anywhere;
+  }
+
+  /* Prevent child elements from expanding the viewport */
+  .main > *,
+  .applications-panel > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Search inputs should fit the screen */
+  .main input,
+  .main select {
+    max-width: 100%;
+    min-width: 0;
+    font-size: 16px;
+  }
+
+  /* Avoid wide application tables */
+  .main table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .main th,
+  .main td {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Small phones */
+@media (max-width: 360px) {
+  .main {
+    padding: 16px 9px 96px;
+    gap: 16px;
+  }
+
+  .page-title__heading {
+    font-size: 1.4rem;
+  }
+
+  .applications-panel {
+    gap: 12px;
+  }
+}
+
+/* ==========================================
+   INTERNTRACK — MOBILE DASHBOARD
+   ========================================== */
+
+.page-title__greeting,
+.page-title__name {
+  display: block;
+}
+
+.page-title__greeting {
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.page-title__name {
+  margin-top: 3px;
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .main {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    gap: 17px;
+    padding-bottom: 90px;
+    overflow-x: clip;
+  }
+
+  .page-title {
+    margin: 0;
+  }
+
+  .page-title__heading {
+    font-size: 1.65rem;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+  }
+
+  .page-title__greeting {
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+
+  .page-title__name {
+    margin-top: 2px;
+    font-size: 1.75rem;
+  }
+
+  .page-title__sub {
+    max-width: 290px;
+    margin-top: 6px;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .applications-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .main > *,
+  .applications-panel > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .loading-state {
+    min-height: 130px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 360px) {
+  .main {
+    gap: 14px;
+    padding: 14px 9px 86px;
+  }
+
+  .page-title__greeting {
+    font-size: 0.9rem;
+  }
+
+  .page-title__name {
+    font-size: 1.55rem;
+  }
+
+  .page-title__sub {
+    font-size: 0.8rem;
+  }
+}
+
