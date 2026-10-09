@@ -13,7 +13,8 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 // ── Middleware ──────────────────────────────────────────────────────────────
-app.use(cors());
+const allowedOrigins = (process.env.CLIENT_URL || '').split(',').filter(Boolean);
+app.use(cors({ origin: allowedOrigins.length ? allowedOrigins : true }));
 app.use(express.json());
 
 // ── Routes ──────────────────────────────────────────────────────────────────
