@@ -101,13 +101,16 @@ function ApplicationForm({ initialData = null, onSubmit, onCancel, isSubmitting,
     // Build the payload — omit empty optional fields so the backend
     // applies its own defaults rather than receiving empty strings
     const payload = { ...fields };
-    if (!payload.appliedDate) delete payload.appliedDate;
-    if (!payload.deadline)    delete payload.deadline;
-    if (!payload.jobUrl)      delete payload.jobUrl;
-    if (!payload.location)    delete payload.location;
-    if (payload.salary === '') delete payload.salary;
-    else payload.salary = Number(payload.salary);
-    if (!payload.notes)       delete payload.notes;
+['appliedDate', 'deadline', 'jobUrl', 'location', 'salary', 'notes'].forEach((key) => {
+  const value = typeof payload[key] === 'string' ? payload[key].trim() : payload[key];
+  if (value === '') {
+    if (isEditing) payload[key] = null; // clear the value in MongoDB
+    else delete payload[key];           // let backend defaults apply
+  } else {
+    payload[key] = value;
+  }
+});
+if (payload.salary != null) payload.salary = Number(payload.salary);
 
     onSubmit(payload);
   };
