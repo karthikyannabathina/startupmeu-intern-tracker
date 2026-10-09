@@ -1,0 +1,356 @@
+
+/* ==========================================================
+   APPLICATION LIST
+   Table, status badges, actions and empty state
+   ========================================================== */
+
+.app-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+  width: 100%;
+  padding: 22px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+}
+
+.app-list__heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.app-list__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  color: #93c5fd;
+  background: rgb(59 130 246 / 15%);
+  border: 1px solid rgb(59 130 246 / 25%);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* Table container */
+.app-list__table-wrapper {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+/* Table layout */
+.app-list__table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: auto;
+  text-align: left;
+}
+
+.app-list__table thead {
+  background: #151f31;
+}
+
+.app-list__table th {
+  padding: 14px 16px;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-list__table td {
+  padding: 15px 16px;
+  color: var(--color-text);
+  font-size: 0.875rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-list__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.app-list__table tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+.app-list__table tbody tr:hover {
+  background: rgb(148 163 184 / 4%);
+}
+
+/* Company cell */
+.app-list__company-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 155px;
+}
+
+.app-avatar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: #bfdbfe;
+  background: rgb(59 130 246 / 14%);
+  border: 1px solid rgb(59 130 246 / 22%);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.app-list__company {
+  display: block;
+  min-width: 0;
+  max-width: 190px;
+  color: var(--color-text);
+  font-weight: 600;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.app-list__table-role {
+  display: block;
+  min-width: 150px;
+  max-width: 280px;
+  color: var(--color-text);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.app-list__table-muted {
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.status-badge--wishlist {
+  color: #cbd5e1;
+  background: rgb(148 163 184 / 10%);
+  border-color: rgb(148 163 184 / 20%);
+}
+
+.status-badge--applied {
+  color: #93c5fd;
+  background: rgb(59 130 246 / 12%);
+  border-color: rgb(59 130 246 / 25%);
+}
+
+.status-badge--assessment {
+  color: #fcd34d;
+  background: rgb(245 158 11 / 10%);
+  border-color: rgb(245 158 11 / 25%);
+}
+
+.status-badge--interview {
+  color: #c4b5fd;
+  background: rgb(139 92 246 / 12%);
+  border-color: rgb(139 92 246 / 25%);
+}
+
+.status-badge--offer {
+  color: #6ee7b7;
+  background: rgb(16 185 129 / 12%);
+  border-color: rgb(16 185 129 / 25%);
+}
+
+.status-badge--rejected {
+  color: #fda4af;
+  background: rgb(244 63 94 / 10%);
+  border-color: rgb(244 63 94 / 25%);
+}
+
+.status-badge--withdrawn {
+  color: #cbd5e1;
+  background: rgb(148 163 184 / 10%);
+  border-color: rgb(148 163 184 / 20%);
+}
+
+/* Edit and delete actions */
+.app-list__item-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 150px;
+}
+
+.app-list__item-action {
+  min-height: 36px;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 0.8rem;
+}
+
+.app-list__row--deleting {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  padding: 32px 20px;
+  text-align: center;
+  background: rgb(148 163 184 / 3%);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius);
+}
+
+.empty-state__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 16px;
+  background: rgb(59 130 246 / 10%);
+  border-radius: 16px;
+  font-size: 1.5rem;
+}
+
+.empty-state__title {
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.empty-state__body {
+  max-width: 360px;
+  margin-top: 7px;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .app-list {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .app-list__table {
+    min-width: 800px;
+  }
+}
+
+@media (max-width: 520px) {
+  .app-list {
+    padding: 12px;
+    border-radius: var(--radius);
+  }
+
+  .app-list__heading {
+    font-size: 1rem;
+  }
+
+  .app-list__table {
+    min-width: 760px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-list__table tbody tr {
+    transition: none;
+  }
+}
+
+/* Table layout diagnostic fix */
+.app-list {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.app-list__heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.app-list__table-wrapper {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.app-list__table {
+  width: 100%;
+  min-width: 900px;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+
+.app-list__table th,
+.app-list__table td {
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.app-list__company-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 150px;
+}
+
+.app-avatar {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+}
+
+.app-list__item-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 150px;
+}
+
+.app-list__item-action {
+  flex-shrink: 0;
+}

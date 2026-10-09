@@ -1,3 +1,4 @@
+import './Dashboard.css';
 
 import StatsCards from './StatsCards.jsx';
 import ApplicationFilters from './ApplicationFilters.jsx';

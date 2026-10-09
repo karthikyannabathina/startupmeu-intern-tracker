@@ -1,3 +1,5 @@
+import './ApplicationFilters.css';
+
 const STATUSES = [
   'Wishlist',
   'Applied',

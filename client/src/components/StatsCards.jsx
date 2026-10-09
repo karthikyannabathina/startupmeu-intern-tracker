@@ -1,3 +1,5 @@
+import './StatsCards.css';
+
 const STATS = [
   { label: 'Total',      key: 'total',     icon: '📋' },
   { label: 'Applied',    key: 'applied',   icon: '🚀' },

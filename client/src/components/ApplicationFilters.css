@@ -1,0 +1,74 @@
+
+/* ==========================================================
+   APPLICATION FILTERS
+   Search input and application-status dropdown
+   ========================================================== */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.filters__search,
+.filters__status {
+  height: var(--input-height);
+  min-height: var(--input-height);
+  padding: 0 0.875rem;
+  color: #e5edf9;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.filters__search {
+  flex: 1;
+  min-width: 220px;
+  padding-left: 1rem;
+}
+
+.filters__search::placeholder {
+  color: #8292ac;
+  opacity: 1;
+}
+
+.filters__status {
+  min-width: 168px;
+  cursor: pointer;
+  color-scheme: dark;
+}
+
+.filters__status option {
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.filters__search:focus,
+.filters__status:focus {
+  border-color: #4f8df7;
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 15%);
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .filters {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filters__search,
+  .filters__status {
+    width: 100%;
+    min-width: 0;
+    height: 46px;
+    padding-inline: 14px;
+    font-size: 0.9rem;
+  }
+}
+

@@ -1,3 +1,4 @@
+import './ApplicationList.css';
 
 const STATUS_MODIFIER = {
   Wishlist: "wishlist",
@@ -67,7 +68,7 @@ function ApplicationList({
           )}
         </div>
       ) : (
-        <div className="app-list__table-wrapper">
+        <div className="app-list__table-wrapper" role="region" aria-label="Applications table" tabIndex={0}>
           <table className="app-list__table">
             <thead>
               <tr>
