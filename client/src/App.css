@@ -96,7 +96,7 @@
 
 /* Thin accent bar on the left edge */
 .stats__card::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -150,7 +150,9 @@
   border-radius: var(--radius);
   padding: 0 0.875rem;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .filters__search {
@@ -436,7 +438,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Error banner ────────────────────────────────────────────── */
@@ -508,7 +512,10 @@
   line-height: 1;
   color: var(--color-text-muted);
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .modal__close:hover:not(:disabled) {
@@ -577,7 +584,9 @@
   padding: 0 0.75rem;
   outline: none;
   width: 100%;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .app-form__input:focus {
@@ -708,4 +717,22 @@
     max-height: calc(100vh - 1.5rem);
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
+
+  .app-avatar {
+    display: none;
+  }
+}
+
+.app-avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef2ff;
+  color: #3730a3;
+  font-weight: 700;
+  font-size: 1rem;
 }
