@@ -308,3 +308,37 @@ transform: rotate(360deg);
   }
 }
 
+/* Final compact mobile dashboard */
+@media (max-width: 520px) {
+  .main {
+    box-sizing: border-box;
+    gap: 12px;
+    padding: 12px 10px 16px;
+  }
+
+  .page-title__greeting {
+    font-size: 0.76rem;
+  }
+
+  .page-title__name {
+    margin-top: 0;
+    font-size: 1.2rem;
+  }
+
+  .page-title__heading {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+
+  .page-title__sub {
+    max-width: 280px;
+    margin-top: 4px;
+    font-size: 0.7rem;
+    line-height: 1.4;
+  }
+
+  .applications-panel {
+    gap: 9px;
+  }
+}
+

@@ -1,4 +1,6 @@
 
+import { useState } from "react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import "./ApplicationList.css";
 
 const STATUS_MODIFIER = {
@@ -32,7 +34,13 @@ function ApplicationList({
   deletingId,
   filtersActive,
 }) {
+  const [expandedId, setExpandedId] = useState(null);
+
   const isEmpty = !applications || applications.length === 0;
+
+  const toggleCard = (id) => {
+    setExpandedId((currentId) => (currentId === id ? null : id));
+  };
 
   const renderActions = (app, isDeleting) => (
     <div className="app-list__item-actions">
@@ -65,7 +73,7 @@ function ApplicationList({
   );
 
   return (
-    <section className="app-list">
+    <section className="app-list" id="applications">
       <h2 className="app-list__heading">
         Applications
         {!isEmpty && (
@@ -181,6 +189,7 @@ function ApplicationList({
           <div className="app-list__mobile">
             {applications.map((app) => {
               const isDeleting = deletingId === app._id;
+              const isExpanded = expandedId === app._id;
               const modifier =
                 STATUS_MODIFIER[app.status] ?? "wishlist";
 
@@ -189,7 +198,7 @@ function ApplicationList({
                   key={app._id}
                   className={`application-card${
                     isDeleting ? " application-card--deleting" : ""
-                  }`}
+                  }${isExpanded ? " application-card--expanded" : ""}`}
                 >
                   <div className="application-card__main">
                     <div className="application-card__avatar" aria-hidden="true">
@@ -246,30 +255,29 @@ function ApplicationList({
                       <button
                         type="button"
                         className="application-card__open"
-                        onClick={() => onEdit(app)}
+                        onClick={() => toggleCard(app._id)}
                         disabled={isDeleting}
-                        aria-label={`View or edit ${app.company} – ${app.role}`}
+                        aria-expanded={isExpanded}
+                        aria-label={
+                          isExpanded
+                            ? `Collapse ${app.company} application`
+                            : `Show actions for ${app.company} application`
+                        }
                       >
-                        <svg
-                          viewBox="0 0 24 24"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="m9 18 6-6-6-6"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        {isExpanded ? (
+                          <ChevronDown size={19} />
+                        ) : (
+                          <ChevronRight size={19} />
+                        )}
                       </button>
                     </div>
                   </div>
 
-                  <div className="application-card__actions">
-                    {renderActions(app, isDeleting)}
-                  </div>
+                  {isExpanded && (
+                    <div className="application-card__actions">
+                      {renderActions(app, isDeleting)}
+                    </div>
+                  )}
                 </article>
               );
             })}

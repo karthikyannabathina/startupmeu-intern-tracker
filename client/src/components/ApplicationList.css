@@ -797,3 +797,102 @@
   }
 }
 
+@media (max-width: 520px) {
+  .app-list {
+    padding: 9px 7px;
+    border-radius: 10px;
+  }
+
+  .app-list__heading {
+    margin-bottom: 7px;
+    font-size: 0.85rem;
+  }
+
+  .app-list__count {
+    min-width: 20px;
+    height: 20px;
+    font-size: 0.65rem;
+  }
+
+  .app-list__mobile {
+    gap: 6px;
+  }
+
+  .application-card {
+    padding: 7px;
+    border-radius: 9px;
+  }
+
+  .application-card__main {
+    grid-template-columns: 27px minmax(0, 1fr) auto;
+    gap: 6px;
+  }
+
+  .application-card__avatar {
+    width: 27px;
+    height: 29px;
+    border-radius: 7px;
+    font-size: 0.75rem;
+  }
+
+  .application-card__company {
+    font-size: 0.67rem;
+    line-height: 1.3;
+  }
+
+  .application-card__role {
+    margin-top: 1px;
+    font-size: 0.59rem;
+    line-height: 1.3;
+  }
+
+  .application-card__meta {
+    gap: 2px 5px;
+    margin-top: 3px;
+    font-size: 0.54rem;
+  }
+
+  .application-card .status-badge {
+    padding: 3px 5px;
+    font-size: 0.54rem;
+  }
+
+  .application-card__open {
+    width: 19px;
+    height: 19px;
+  }
+
+  .application-card__actions {
+    margin-top: 5px;
+    padding-top: 5px;
+  }
+}
+/* Edit and Delete button colors */
+.application-card__actions .app-list__item-action {
+color: #ffffff !important;
+font-weight: 600;
+border-radius: 7px;
+cursor: pointer;
+}
+
+/* Edit button */
+.application-card__actions .app-list__item-actions button:first-child {
+background: #2563eb !important;
+color: #ffffff !important;
+border: 1px solid #2563eb !important;
+}
+
+.application-card__actions .app-list__item-actions button:first-child:hover {
+background: #1d4ed8 !important;
+}
+
+/* Delete button */
+.application-card__actions .app-list__item-actions button:last-child {
+background: #dc2626 !important;
+color: #ffffff !important;
+border: 1px solid #dc2626 !important;
+}
+
+.application-card__actions .app-list__item-actions button:last-child:hover {
+background: #b91c1c !important;
+}
