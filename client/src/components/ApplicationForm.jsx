@@ -23,7 +23,20 @@ const EMPTY_FORM = {
 };
 
 // Very simple URL check — protocol optional, must have a dot in the host
-const URL_RE = /^(https?:\/\/)?[\w-]+(\.[\w-]+)+(\/\S*)?$/i;
+function normalizeUrl(value) {
+  const v = value.trim();
+  if (!v) return '';
+  return /^https?:\/\//i.test(v) ? v : `https://${v}`;
+}
+
+function isValidUrl(value) {
+  try {
+    const url = new URL(value);
+    return (url.protocol === 'http:' || url.protocol === 'https:') && url.hostname.includes('.');
+  } catch {
+    return false;
+  }
+}
 
 /**
  * MongoDB stores dates as ISO strings ("2024-03-15T00:00:00.000Z").
@@ -58,9 +71,9 @@ function validate(fields) {
   const errors = {};
   if (!fields.company.trim())  errors.company = 'Company is required.';
   if (!fields.role.trim())     errors.role    = 'Role is required.';
-  if (fields.jobUrl && !URL_RE.test(fields.jobUrl.trim())) {
-    errors.jobUrl = 'Please enter a valid URL.';
-  }
+  if (fields.jobUrl.trim() && !isValidUrl(normalizeUrl(fields.jobUrl))) {
+  errors.jobUrl = 'Please enter a valid URL.';
+}
   if (fields.salary !== '' && (isNaN(Number(fields.salary)) || Number(fields.salary) < 0)) {
     errors.salary = 'Salary must be a non-negative number.';
   }
@@ -101,6 +114,8 @@ function ApplicationForm({ initialData = null, onSubmit, onCancel, isSubmitting,
     // Build the payload — omit empty optional fields so the backend
     // applies its own defaults rather than receiving empty strings
     const payload = { ...fields };
+    payload.jobUrl = normalizeUrl(payload.jobUrl);
+    
 ['appliedDate', 'deadline', 'jobUrl', 'location', 'salary', 'notes'].forEach((key) => {
   const value = typeof payload[key] === 'string' ? payload[key].trim() : payload[key];
   if (value === '') {
