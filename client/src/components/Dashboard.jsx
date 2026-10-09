@@ -29,10 +29,7 @@ function Dashboard({
       )}
 
       <section className="page-title">
-        <h1 className="page-title__heading">
-          <span className="page-title__greeting">👋 Good morning,</span>
-          <span className="page-title__name">Karthik</span>
-        </h1>
+        <h1 className="page-title__heading">Dashboard</h1>
 
         <p className="page-title__sub">
           Track and manage your internship applications.

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { House, ClipboardList } from "lucide-react";
 import "./BottomNavigation.css";
@@ -17,26 +16,24 @@ function BottomNavigation() {
 
   useEffect(() => {
     const main = document.querySelector(".main");
-    const applications = document.getElementById("applications");
-
-    if (!main || !applications) return;
+    if (!main) return undefined;
 
     const updateActiveTab = () => {
+      const applications = document.getElementById("applications");
+      if (!applications) return;
+
       const mainRect = main.getBoundingClientRect();
       const appRect = applications.getBoundingClientRect();
 
       setActiveTab(
         appRect.top <= mainRect.top + mainRect.height * 0.45
           ? "applications"
-          : "home"
+          : "home",
       );
     };
 
     main.addEventListener("scroll", updateActiveTab, { passive: true });
-
-    return () => {
-      main.removeEventListener("scroll", updateActiveTab);
-    };
+    return () => main.removeEventListener("scroll", updateActiveTab);
   }, []);
 
   const handleNavigation = (target) => {
@@ -52,8 +49,7 @@ function BottomNavigation() {
     const mainRect = main.getBoundingClientRect();
     const elementRect = element.getBoundingClientRect();
 
-    const top =
-      main.scrollTop + elementRect.top - mainRect.top - 12;
+    const top = main.scrollTop + elementRect.top - mainRect.top - 12;
 
     main.scrollTo({
       top: Math.max(0, top),
