@@ -29,7 +29,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1.5rem;
+  padding: 0 max(1.5rem, calc((100% - 1200px) / 2 + 1.5rem));
   height: 3.5rem;
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -96,21 +96,39 @@
 
 /* Thin accent bar on the left edge */
 .stats__card::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
-  width: 3px;
-  background-color: var(--color-primary);
-  opacity: 0.25;
+  width: 4px;
+  background-color: var(--accent);
   border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+
+.stats__card--total     { --accent: #2563eb; --accent-bg: #eff6ff; }
+.stats__card--applied   { --accent: #4f46e5; --accent-bg: #eef2ff; }
+.stats__card--interview { --accent: #d97706; --accent-bg: #fffbeb; }
+.stats__card--offer     { --accent: #16a34a; --accent-bg: #f0fdf4; }
+
+.stats__icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: var(--accent-bg);
+  font-size: 1.125rem;
 }
 
 .stats__value {
   font-size: 2.25rem;
   font-weight: 800;
-  color: var(--color-text);
+  color: var(--accent);
   line-height: 1;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;

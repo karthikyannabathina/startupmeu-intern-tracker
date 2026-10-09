@@ -1,15 +1,16 @@
 const STATS = [
-  { label: 'Total',      key: 'total' },
-  { label: 'Applied',    key: 'applied' },
-  { label: 'Interviews', key: 'interview' },
-  { label: 'Offers',     key: 'offer' },
+  { label: 'Total',      key: 'total',     icon: '📋' },
+  { label: 'Applied',    key: 'applied',   icon: '🚀' },
+  { label: 'Interviews', key: 'interview', icon: '💬' },
+  { label: 'Offers',     key: 'offer',     icon: '🎉' },
 ];
 
 function StatsCards({ stats }) {
   return (
     <section className="stats" aria-label="Application statistics">
-      {STATS.map(({ label, key }) => (
-        <div className="stats__card" key={key}>
+      {STATS.map(({ label, key, icon }) => (
+        <div className={`stats__card stats__card--${key}`} key={key}>
+          <span className="stats__icon" aria-hidden="true">{icon}</span>
           <span className="stats__value">
             {stats?.[key] ?? '--'}
           </span>
