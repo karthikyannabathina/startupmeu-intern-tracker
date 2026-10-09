@@ -896,3 +896,42 @@ border: 1px solid #dc2626 !important;
 .application-card__actions .app-list__item-actions button:last-child:hover {
 background: #b91c1c !important;
 }
+
+
+/* Desktop: Edit & Delete action buttons */
+@media (min-width: 769px) {
+  .app-list__item-actions button {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  /* Edit — Blue */
+  .app-list__item-actions button:first-child {
+    background: rgba(59, 130, 246, 0.12);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  .app-list__item-actions button:first-child:hover {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+  }
+
+  /* Delete — Red */
+  .app-list__item-actions button:last-child {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .app-list__item-actions button:last-child:hover {
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+  }
+}
