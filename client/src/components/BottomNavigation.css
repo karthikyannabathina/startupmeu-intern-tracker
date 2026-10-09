@@ -109,7 +109,7 @@
     border-radius: 16px !important;
     box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22) !important;
 
-    z-index: 9999 !important;
+   z-index: 100 !important;
     box-sizing: border-box !important;
   }
 
