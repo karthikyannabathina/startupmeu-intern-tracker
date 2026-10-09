@@ -14,7 +14,16 @@ connectDB();
 
 // ── Middleware ──────────────────────────────────────────────────────────────
 const allowedOrigins = (process.env.CLIENT_URL || '').split(',').filter(Boolean);
-app.use(cors({ origin: allowedOrigins.length ? allowedOrigins : true }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://startupmeu-intern-tracker.vercel.app",
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // ── Routes ──────────────────────────────────────────────────────────────────

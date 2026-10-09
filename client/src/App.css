@@ -165,3 +165,29 @@
     box-shadow: 0 1px 5px rgba(15, 23, 42, 0.12) !important;
   }
 }
+
+
+/* Desktop: Edit and Delete action buttons */
+@media (min-width: 521px) {
+  .app-list__item-action--edit {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: 1px solid #2563eb;
+  }
+
+  .app-list__item-action--edit:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+  }
+
+  .app-list__item-action--delete {
+    background-color: #dc2626;
+    color: #ffffff;
+    border: 1px solid #dc2626;
+  }
+
+  .app-list__item-action--delete:hover {
+    background-color: #b91c1c;
+    border-color: #b91c1c;
+  }
+}
