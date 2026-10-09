@@ -23,7 +23,7 @@ const getAllApplications = async (req, res, next) => {
     }
 
     if (search) {
-      const regex = new RegExp(search, 'i'); // case-insensitive partial match
+      const regex = new RegExp(escapeRegex(String(search).trim()), 'i'); // case-insensitive partial match
       filter.$or = [{ company: regex }, { role: regex }];
     }
 
