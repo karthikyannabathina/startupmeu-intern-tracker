@@ -29,15 +29,9 @@ const errorHandler = (err, req, res, next) => {
     message = `Invalid value for field: ${err.path}`;
   }
 
-  // Duplicate key (not used in MVP but safe to handle early)
-  if (err.code === 11000) {
-    statusCode = 409;
-    const field = Object.keys(err.keyValue)[0];
-    message = `Duplicate value for field: ${field}`;
-  }
-
-  if (process.env.NODE_ENV === 'development') {
+    if (statusCode >= 500) {
     console.error('[Error]', err);
+    if (process.env.NODE_ENV === 'production') message = 'Internal Server Error';
   }
 
   res.status(statusCode).json({

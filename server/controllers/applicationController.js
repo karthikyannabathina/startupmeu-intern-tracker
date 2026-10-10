@@ -3,6 +3,12 @@ const Application = require('../models/Application');
 const { sendSuccess, sendError } = require('../utils/apiResponse');
 const escapeRegex = require('../utils/escapeRegex');
 
+const ALLOWED_FIELDS = ['company', 'role', 'status', 'appliedDate', 'deadline', 'jobUrl', 'location', 'salary', 'notes'];
+
+// Only known fields are accepted; ignores _id, timestamps and Mongo operators
+const pickFields = (body) =>
+  Object.fromEntries(Object.entries(body).filter(([key]) => ALLOWED_FIELDS.includes(key)));
+
 const getAllApplications = async (req, res, next) => {
   try {
     const { search, status } = req.query;
@@ -58,7 +64,7 @@ const getApplicationById = async (req, res, next) => {
 
 const createApplication = async (req, res, next) => {
   try {
-    const application = await Application.create(req.body);
+    const application = await Application.create(pickFields(req.body));
     return sendSuccess(res, application, 'Application created successfully', 201);
   } catch (error) {
     next(error);
@@ -72,9 +78,6 @@ const updateApplication = async (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return sendError(res, 'Invalid application ID', 400);
     }
-
-    // Strip immutable fields so a client cannot overwrite Mongoose-managed metadata
-    const { _id, createdAt, updatedAt, ...updateData } = req.body;
 
     const application = await Application.findByIdAndUpdate(
       id,
@@ -149,30 +152,22 @@ const deleteApplication = async (req, res, next) => {
 
 const getStats = async (req, res, next) => {
   try {
-    // Single aggregation pass: group by status and count each bucket
-    const [totalResult, statusCounts] = await Promise.all([
-      Application.countDocuments(),
-      Application.aggregate([
-        { $group: { _id: '$status', count: { $sum: 1 } } },
-      ]),
+    const statusCounts = await Application.aggregate([
+      { $group: { _id: '$status', count: { $sum: 1 } } },
     ]);
 
-    // Build byStatus with a guaranteed 0 for every defined status,
-    // then overwrite with real counts from the aggregation result
-    const byStatus = Application.STATUSES.reduce((acc, s) => {
-      acc[s] = 0;
-      return acc;
-    }, {});
+    // Start every status at 0 so empty statuses still appear in the response
+    const byStatus = Object.fromEntries(Application.STATUSES.map((s) => [s, 0]));
+    let total = 0;
 
     statusCounts.forEach(({ _id, count }) => {
-      if (_id in byStatus) byStatus[_id] = count;
+      if (_id in byStatus) {
+        byStatus[_id] = count;
+        total += count;
+      }
     });
 
-    return sendSuccess(
-      res,
-      { total: totalResult, byStatus },
-      'Statistics retrieved successfully'
-    );
+    return sendSuccess(res, { total, byStatus }, 'Statistics retrieved successfully');
   } catch (error) {
     next(error);
   }
