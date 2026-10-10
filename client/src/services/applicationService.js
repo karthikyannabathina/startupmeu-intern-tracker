@@ -3,7 +3,14 @@ const BASE = `${API_URL}/api/applications`;
 
 // One shared helper: fetch, parse JSON, unwrap the { success, data, errors } envelope
 async function request(url, options = {}) {
-  const res = await fetch(url, options);
+  let res;
+  try {
+    res = await fetch(url, options);
+  } catch {
+    throw new Error(
+      "Cannot reach the server. It may be waking up, please retry in a minute.",
+    );
+  }
 
   let body;
   try {
