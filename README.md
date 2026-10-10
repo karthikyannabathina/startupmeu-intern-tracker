@@ -127,7 +127,7 @@ Open `http://localhost:3000`. In development, Vite proxies `/api` requests to th
 | `PORT` | server | Port for the API (default 5000) |
 | `MONGO_URI` | server | MongoDB connection string |
 | `NODE_ENV` | server | `development` or `production` |
-| `CLIENT_URL` | server (production) | Allowed frontend origin(s) for CORS, comma-separated |
+| `CLIENT_URL` | server (production) | Extra allowed CORS origins, comma-separated (optional) |
 | `VITE_API_URL` | client (production) | Base URL of the deployed API, no trailing slash |
 
 ### Production build

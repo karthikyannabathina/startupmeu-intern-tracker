@@ -1,10 +1,11 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
 
-const connectDB = require('./config/db');
-const applicationRoutes = require('./routes/applicationRoutes');
-const errorHandler = require('./middleware/errorHandler');
+const connectDB = require("./config/db");
+const applicationRoutes = require("./routes/applicationRoutes");
+const errorHandler = require("./middleware/errorHandler");
+const { sendError } = require("./utils/apiResponse");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -12,32 +13,31 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB
 connectDB();
 
-// ── Middleware ──────────────────────────────────────────────────────────────
-const allowedOrigins = (process.env.CLIENT_URL || '').split(',').filter(Boolean);
+// Local dev + deployed client are always allowed; CLIENT_URL can add more (comma-separated)
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://startupmeu-intern-tracker.vercel.app",
+  ...(process.env.CLIENT_URL || "").split(",").filter(Boolean),
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://startupmeu-intern-tracker.vercel.app",
-    ],
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 
 // ── Routes ──────────────────────────────────────────────────────────────────
-app.use('/api/applications', applicationRoutes);
+app.use("/api/applications", applicationRoutes);
 
 // Health-check — useful for confirming the server is up without needing a DB
-app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'InternTrack API is running' });
+app.get("/api/health", (req, res) => {
+  res.json({ success: true, message: "InternTrack API is running" });
 });
 
 // 404 handler for unmatched routes
-app.use((req, res) => {
-  res.status(404).json({ success: false, message: 'Route not found' });
-});
+app.use((req, res) => sendError(res, "Route not found", 404));
 
 // ── Global error handler (must be last) ─────────────────────────────────────
 app.use(errorHandler);

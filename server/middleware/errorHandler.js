@@ -10,13 +10,13 @@
  */
 const errorHandler = (err, req, res, next) => {
   let statusCode = err.statusCode || 500;
-  let message = err.message || 'Internal Server Error';
+  let message = err.message || "Internal Server Error";
   let errors = null;
 
   // Mongoose validation errors — collect all field messages
-  if (err.name === 'ValidationError') {
+  if (err.name === "ValidationError") {
     statusCode = 400;
-    message = 'Validation failed';
+    message = "Validation failed";
     errors = Object.values(err.errors).map((e) => ({
       field: e.path,
       message: e.message,
@@ -24,14 +24,15 @@ const errorHandler = (err, req, res, next) => {
   }
 
   // Bad MongoDB ObjectId (e.g. /applications/not-an-id)
-  if (err.name === 'CastError') {
+  if (err.name === "CastError") {
     statusCode = 400;
     message = `Invalid value for field: ${err.path}`;
   }
 
-    if (statusCode >= 500) {
-    console.error('[Error]', err);
-    if (process.env.NODE_ENV === 'production') message = 'Internal Server Error';
+  if (statusCode >= 500) {
+    console.error("[Error]", err);
+    if (process.env.NODE_ENV === "production")
+      message = "Internal Server Error";
   }
 
   res.status(statusCode).json({

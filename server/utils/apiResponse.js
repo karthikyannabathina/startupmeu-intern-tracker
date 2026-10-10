@@ -7,7 +7,7 @@
  * Error envelope:    { success: false, data: null, message, errors }
  */
 
-const sendSuccess = (res, data, message = 'OK', statusCode = 200) => {
+const sendSuccess = (res, data, message = "OK", statusCode = 200) => {
   res.status(statusCode).json({
     success: true,
     message,
@@ -16,7 +16,12 @@ const sendSuccess = (res, data, message = 'OK', statusCode = 200) => {
   });
 };
 
-const sendError = (res, message = 'Internal Server Error', statusCode = 500, errors = null) => {
+const sendError = (
+  res,
+  message = "Internal Server Error",
+  statusCode = 500,
+  errors = null,
+) => {
   res.status(statusCode).json({
     success: false,
     message,
