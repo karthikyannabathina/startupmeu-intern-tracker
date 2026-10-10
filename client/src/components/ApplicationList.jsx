@@ -12,6 +12,9 @@ const STATUS_MODIFIER = {
   Withdrawn: "withdrawn",
 };
 
+const getInitial = (company) =>
+  company?.trim()?.charAt(0)?.toUpperCase() || "?";
+
 function formatDate(iso) {
   if (!iso) return "—";
 
@@ -23,6 +26,7 @@ function formatDate(iso) {
     month: "short",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 }
 
@@ -141,8 +145,7 @@ function ApplicationList({
                       <td>
                         <div className="app-list__company-cell">
                           <div className="app-avatar" aria-hidden="true">
-                            {app.company?.trim()?.charAt(0)?.toUpperCase() ||
-                              "?"}
+                            {getInitial(app.company)}
                           </div>
                           <span className="app-list__company">
                             {app.company}
@@ -201,7 +204,7 @@ function ApplicationList({
                       className="application-card__avatar"
                       aria-hidden="true"
                     >
-                      {app.company?.trim()?.charAt(0)?.toUpperCase() || "?"}
+                      {getInitial(app.company)}
                     </div>
 
                     <div className="application-card__details">

@@ -125,33 +125,24 @@ function ApplicationForm({
     }
 
     // Add https:// if the user left out the protocol (the server requires it)
-    const payload = { ...fields };
-    payload.jobUrl = normalizeUrl(payload.jobUrl);
+    const payload = { ...fields, jobUrl: normalizeUrl(fields.jobUrl) };
 
-    // Empty optional fields: send null when editing (so they clear in MongoDB),
-    // omit when creating
+OPTIONAL_FIELDS.forEach((key) => {
+  const value =
+    typeof payload[key] === "string" ? payload[key].trim() : payload[key];
 
-    [
-      "appliedDate",
-      "deadline",
-      "jobUrl",
-      "location",
-      "salary",
-      "notes",
-    ].forEach((key) => {
-      const value =
-        typeof payload[key] === "string" ? payload[key].trim() : payload[key];
-      if (value === "") {
-        if (isEditing)
-          payload[key] = null; // clear the value in MongoDB
-        else delete payload[key]; // let backend defaults apply
-      } else {
-        payload[key] = value;
-      }
-    });
-    if (payload.salary != null) payload.salary = Number(payload.salary);
+  if (value !== "") {
+    payload[key] = value;
+  } else if (isEditing) {
+    payload[key] = null;
+  } else {
+    delete payload[key];
+  }
+});
 
-    onSubmit(payload);
+if (payload.salary != null) payload.salary = Number(payload.salary);
+
+onSubmit(payload);
   };
 
   return (
