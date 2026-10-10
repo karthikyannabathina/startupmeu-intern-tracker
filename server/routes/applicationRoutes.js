@@ -23,7 +23,7 @@ router.post('/', createApplication);
 // GET /api/applications/:id              — single application by ID
 router.get('/:id', getApplicationById);
 
-// PUT /api/applications/:id              — full update of an existing application
+// PUT /api/applications/:id              — update an existing application
 router.put('/:id', updateApplication);
 
 // PATCH /api/applications/:id/status     — update status only
