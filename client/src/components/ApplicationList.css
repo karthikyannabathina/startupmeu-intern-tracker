@@ -1,4 +1,3 @@
-
 /* ==========================================================
    APPLICATION LIST
    Table, status badges, actions and empty state
@@ -354,7 +353,6 @@
 .app-list__item-action {
   flex-shrink: 0;
 }
-
 
 /* Mobile application list */
 @media (max-width: 520px) {
@@ -869,34 +867,33 @@
 }
 /* Edit and Delete button colors */
 .application-card__actions .app-list__item-action {
-color: #ffffff !important;
-font-weight: 600;
-border-radius: 7px;
-cursor: pointer;
+  color: #ffffff !important;
+  font-weight: 600;
+  border-radius: 7px;
+  cursor: pointer;
 }
 
 /* Edit button */
 .application-card__actions .app-list__item-actions button:first-child {
-background: #2563eb !important;
-color: #ffffff !important;
-border: 1px solid #2563eb !important;
+  background: #2563eb !important;
+  color: #ffffff !important;
+  border: 1px solid #2563eb !important;
 }
 
 .application-card__actions .app-list__item-actions button:first-child:hover {
-background: #1d4ed8 !important;
+  background: #1d4ed8 !important;
 }
 
 /* Delete button */
 .application-card__actions .app-list__item-actions button:last-child {
-background: #dc2626 !important;
-color: #ffffff !important;
-border: 1px solid #dc2626 !important;
+  background: #dc2626 !important;
+  color: #ffffff !important;
+  border: 1px solid #dc2626 !important;
 }
 
 .application-card__actions .app-list__item-actions button:last-child:hover {
-background: #b91c1c !important;
+  background: #b91c1c !important;
 }
-
 
 /* Desktop: Edit & Delete action buttons */
 @media (min-width: 769px) {
@@ -935,7 +932,6 @@ background: #b91c1c !important;
     border-color: #dc2626;
   }
 }
-
 
 /* Cancel button */
 .app-form__actions .btn--ghost {

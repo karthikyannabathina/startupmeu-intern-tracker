@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import "./ApplicationList.css";
@@ -59,7 +58,7 @@ function ApplicationList({
         className="btn btn--danger app-list__item-action"
         onClick={() => {
           const confirmed = window.confirm(
-            `Delete "${app.company} – ${app.role}"?\n\nThis cannot be undone.`
+            `Delete "${app.company} – ${app.role}"?\n\nThis cannot be undone.`,
           );
 
           if (confirmed) onDelete(app._id);
@@ -130,8 +129,7 @@ function ApplicationList({
               <tbody>
                 {applications.map((app) => {
                   const isDeleting = deletingId === app._id;
-                  const modifier =
-                    STATUS_MODIFIER[app.status] ?? "wishlist";
+                  const modifier = STATUS_MODIFIER[app.status] ?? "wishlist";
 
                   return (
                     <tr
@@ -143,7 +141,8 @@ function ApplicationList({
                       <td>
                         <div className="app-list__company-cell">
                           <div className="app-avatar" aria-hidden="true">
-                            {app.company?.trim()?.charAt(0)?.toUpperCase() || "?"}
+                            {app.company?.trim()?.charAt(0)?.toUpperCase() ||
+                              "?"}
                           </div>
                           <span className="app-list__company">
                             {app.company}
@@ -152,9 +151,7 @@ function ApplicationList({
                       </td>
 
                       <td>
-                        <span className="app-list__table-role">
-                          {app.role}
-                        </span>
+                        <span className="app-list__table-role">{app.role}</span>
                       </td>
 
                       <td>
@@ -190,8 +187,7 @@ function ApplicationList({
             {applications.map((app) => {
               const isDeleting = deletingId === app._id;
               const isExpanded = expandedId === app._id;
-              const modifier =
-                STATUS_MODIFIER[app.status] ?? "wishlist";
+              const modifier = STATUS_MODIFIER[app.status] ?? "wishlist";
 
               return (
                 <article
@@ -201,7 +197,10 @@ function ApplicationList({
                   }${isExpanded ? " application-card--expanded" : ""}`}
                 >
                   <div className="application-card__main">
-                    <div className="application-card__avatar" aria-hidden="true">
+                    <div
+                      className="application-card__avatar"
+                      aria-hidden="true"
+                    >
                       {app.company?.trim()?.charAt(0)?.toUpperCase() || "?"}
                     </div>
 

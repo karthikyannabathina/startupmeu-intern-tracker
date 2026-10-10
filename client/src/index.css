@@ -1,4 +1,3 @@
-
 /* ==========================================================
    GLOBAL STYLES
    Design tokens, reset and accessibility
@@ -31,8 +30,8 @@
   --shadow-lg: 0 24px 70px rgb(0 0 0 / 40%);
 
   /* Typography */
-  --font-sans: Inter, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, sans-serif;
+  --font-sans:
+    Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Sizing and motion */
   --input-height: 46px;
@@ -98,4 +97,3 @@ a:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
-

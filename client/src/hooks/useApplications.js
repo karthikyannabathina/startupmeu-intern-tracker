@@ -1,16 +1,15 @@
-
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 import {
   getApplications,
   getStats,
   deleteApplication,
-} from '../services/applicationService.js';
+} from "../services/applicationService.js";
 
 export function useApplications() {
   // Filters
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   // Data
   const [applications, setApplications] = useState([]);
@@ -45,35 +44,24 @@ export function useApplications() {
   }, []);
 
   // Fetch applications using the current filters
-  const fetchApplications = useCallback(
-    async (query, status) => {
-      setLoadingApps(true);
-      setError(null);
+  const fetchApplications = useCallback(async (query, status) => {
+    setLoadingApps(true);
+    setError(null);
 
-      try {
-        const data = await getApplications(query, status);
-        setApplications(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoadingApps(false);
-      }
-    },
-    []
-  );
+    try {
+      const data = await getApplications(query, status);
+      setApplications(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoadingApps(false);
+    }
+  }, []);
 
   // Refresh both applications and statistics
   const refreshData = useCallback(() => {
-    return Promise.all([
-      fetchApplications(search, statusFilter),
-      fetchStats(),
-    ]);
-  }, [
-    fetchApplications,
-    fetchStats,
-    search,
-    statusFilter,
-  ]);
+    return Promise.all([fetchApplications(search, statusFilter), fetchStats()]);
+  }, [fetchApplications, fetchStats, search, statusFilter]);
 
   // Load statistics on mount
   useEffect(() => {
@@ -100,7 +88,7 @@ export function useApplications() {
         setDeletingId(null);
       }
     },
-    [refreshData]
+    [refreshData],
   );
 
   return {

@@ -1,4 +1,3 @@
-
 /* ==========================================================
    DASHBOARD
    Main content layout, page title and dashboard error banner
@@ -100,29 +99,29 @@
 
 /* Loading state */
 .loading-state {
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 12px;
-min-height: 180px;
-color: var(--color-text-muted);
-font-size: 0.9375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 180px;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
 }
 
 .loading-spinner {
-width: 20px;
-height: 20px;
-flex-shrink: 0;
-border: 2px solid var(--color-border);
-border-top-color: var(--color-primary);
-border-radius: 50%;
-animation: dashboard-spin 0.7s linear infinite;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: dashboard-spin 0.7s linear infinite;
 }
 
 @keyframes dashboard-spin {
-to {
-transform: rotate(360deg);
-}
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ==========================================================
@@ -341,4 +340,3 @@ transform: rotate(360deg);
     gap: 9px;
   }
 }
-

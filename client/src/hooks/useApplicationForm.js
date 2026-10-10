@@ -1,10 +1,9 @@
-
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from "react";
 
 import {
   createApplication,
   updateApplication,
-} from '../services/applicationService.js';
+} from "../services/applicationService.js";
 
 export function useApplicationForm(refreshData) {
   const [showForm, setShowForm] = useState(false);
@@ -53,12 +52,12 @@ export function useApplicationForm(refreshData) {
 
         await refreshData();
       } catch (err) {
-        setFormError(err.message || 'Something went wrong.');
+        setFormError(err.message || "Something went wrong.");
       } finally {
         setIsSubmitting(false);
       }
     },
-    [editingApplication, refreshData]
+    [editingApplication, refreshData],
   );
 
   // Escape closes the form unless submission is in progress
@@ -66,15 +65,15 @@ export function useApplicationForm(refreshData) {
     if (!showForm || isSubmitting) return undefined;
 
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         closeForm();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [showForm, isSubmitting, closeForm]);
 

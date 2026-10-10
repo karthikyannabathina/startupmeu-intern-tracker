@@ -1,5 +1,5 @@
 import { useState } from "react";
-import './ApplicationForm.css';
+import "./ApplicationForm.css";
 
 const STATUSES = [
   "Wishlist",

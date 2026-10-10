@@ -1,16 +1,21 @@
-import './ApplicationFilters.css';
+import "./ApplicationFilters.css";
 
 const STATUSES = [
-  'Wishlist',
-  'Applied',
-  'Assessment',
-  'Interview',
-  'Offer',
-  'Rejected',
-  'Withdrawn',
+  "Wishlist",
+  "Applied",
+  "Assessment",
+  "Interview",
+  "Offer",
+  "Rejected",
+  "Withdrawn",
 ];
 
-function ApplicationFilters({ search, status, onSearchChange, onStatusChange }) {
+function ApplicationFilters({
+  search,
+  status,
+  onSearchChange,
+  onStatusChange,
+}) {
   return (
     <div className="filters">
       <input
@@ -29,7 +34,9 @@ function ApplicationFilters({ search, status, onSearchChange, onStatusChange }) 
       >
         <option value="">All Statuses</option>
         {STATUSES.map((s) => (
-          <option key={s} value={s}>{s}</option>
+          <option key={s} value={s}>
+            {s}
+          </option>
         ))}
       </select>
     </div>
