@@ -9,20 +9,8 @@ A full-stack internship application tracker built with the MERN stack. Keep ever
 
 > The backend runs on a free Render instance, so the first request after a period of inactivity can take up to a minute while it wakes up.
 
-
 ## 📸 Dashboard Preview
 
-<<<<<<< Updated upstream
-| Dashboard 1 | Dashboard 2 |
-| :---: | :---: |
-| ![InternTrack Dashboard 1](./screenshots/dashboard1.png) | ![InternTrack Dashboard 2](./screenshots/dashboard2.png) |
-
-## 📝 Form & Mobile Preview
-
-| Add / Edit Form | Mobile View |
-| :---: | :---: |
-| ![Add Application Form](./screenshots/form.png) | ![InternTrack Mobile View](./screenshots/mobileview.jpeg) |
-=======
 |                                      Dashboard 1                                     |                                      Dashboard 2                                     |
 | :----------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: |
 | <img src="./screenshots/dashboard1.png" width="400" alt="InternTrack Dashboard 1" /> | <img src="./screenshots/dashboard2.png" width="400" alt="InternTrack Dashboard 2" /> |
@@ -33,7 +21,6 @@ A full-stack internship application tracker built with the MERN stack. Keep ever
 | :-------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------: |
 | <img src="./screenshots/form.png" width="400" alt="Add Application Form" /> | <img src="./screenshots/mobileview.jpeg" width="250" alt="InternTrack Mobile View" /> |
 
->>>>>>> Stashed changes
 
 ## Features
 
