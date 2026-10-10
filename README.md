@@ -10,11 +10,15 @@ A full-stack internship application tracker built with the MERN stack. Keep ever
 
 ## 📸 Dashboard Preview
 
-![InternTrack Dashboard](./screenshots/dashboard.png)
+| Dashboard 1 | Dashboard 2 |
+| :---: | :---: |
+| ![InternTrack Dashboard 1](./screenshots/dashboard1.png) | ![InternTrack Dashboard 2](./screenshots/dashboard2.png) |
+
+## 📝 Form & Mobile Preview
 
 | Add / Edit Form | Mobile View |
 | :---: | :---: |
-| ![Add Application Form](./screenshots/form.png) | ![InternTrack Mobile View](./screenshots/mobile.png) |
+| ![Add Application Form](./screenshots/form.png) | ![InternTrack Mobile View](./screenshots/mobileview.jpeg) |
 
 ## Features
 
