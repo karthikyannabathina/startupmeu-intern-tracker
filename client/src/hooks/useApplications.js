@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 import {
   getApplications,
@@ -9,6 +9,7 @@ import {
 export function useApplications() {
   // Filters
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
 
   // Data
@@ -22,6 +23,12 @@ export function useApplications() {
 
   // Delete state
   const [deletingId, setDeletingId] = useState(null);
+
+  // Wait until the user stops typing before hitting the API
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search), 400);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   // Fetch dashboard statistics
   const fetchStats = useCallback(async () => {
@@ -43,35 +50,41 @@ export function useApplications() {
     }
   }, []);
 
+  const latestRequest = useRef(0);
+
   // Fetch applications using the current filters
   const fetchApplications = useCallback(async (query, status) => {
+    // Only the most recent request may update state (guards against out-of-order responses)
+    const requestId = ++latestRequest.current;
     setLoadingApps(true);
     setError(null);
 
     try {
       const data = await getApplications(query, status);
-      setApplications(data);
+      if (requestId === latestRequest.current) setApplications(data);
     } catch (err) {
-      setError(err.message);
+      if (requestId === latestRequest.current) setError(err.message);
     } finally {
-      setLoadingApps(false);
+      if (requestId === latestRequest.current) setLoadingApps(false);
     }
   }, []);
 
   // Refresh both applications and statistics
   const refreshData = useCallback(() => {
-    return Promise.all([fetchApplications(search, statusFilter), fetchStats()]);
-  }, [fetchApplications, fetchStats, search, statusFilter]);
+    return Promise.all([
+      fetchApplications(debouncedSearch, statusFilter),
+      fetchStats(),
+    ]);
+  }, [fetchApplications, fetchStats, debouncedSearch, statusFilter]);
+
+  useEffect(() => {
+    fetchApplications(debouncedSearch, statusFilter);
+  }, [debouncedSearch, statusFilter, fetchApplications]);
 
   // Load statistics on mount
   useEffect(() => {
     fetchStats();
   }, [fetchStats]);
-
-  // Load applications when filters change
-  useEffect(() => {
-    fetchApplications(search, statusFilter);
-  }, [search, statusFilter, fetchApplications]);
 
   // Delete an application
   const handleDelete = useCallback(
