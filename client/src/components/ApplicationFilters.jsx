@@ -1,14 +1,5 @@
 import "./ApplicationFilters.css";
-
-const STATUSES = [
-  "Wishlist",
-  "Applied",
-  "Assessment",
-  "Interview",
-  "Offer",
-  "Rejected",
-  "Withdrawn",
-];
+import { STATUSES } from "../constants/statuses.js";
 
 function ApplicationFilters({
   search,

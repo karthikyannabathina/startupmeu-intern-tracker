@@ -1,15 +1,6 @@
 import { useState } from "react";
 import "./ApplicationForm.css";
-
-const STATUSES = [
-  "Wishlist",
-  "Applied",
-  "Assessment",
-  "Interview",
-  "Offer",
-  "Rejected",
-  "Withdrawn",
-];
+import { STATUSES } from "../constants/statuses.js";
 
 const EMPTY_FORM = {
   company: "",
@@ -127,22 +118,22 @@ function ApplicationForm({
     // Add https:// if the user left out the protocol (the server requires it)
     const payload = { ...fields, jobUrl: normalizeUrl(fields.jobUrl) };
 
-OPTIONAL_FIELDS.forEach((key) => {
-  const value =
-    typeof payload[key] === "string" ? payload[key].trim() : payload[key];
+    OPTIONAL_FIELDS.forEach((key) => {
+      const value =
+        typeof payload[key] === "string" ? payload[key].trim() : payload[key];
 
-  if (value !== "") {
-    payload[key] = value;
-  } else if (isEditing) {
-    payload[key] = null;
-  } else {
-    delete payload[key];
-  }
-});
+      if (value !== "") {
+        payload[key] = value;
+      } else if (isEditing) {
+        payload[key] = null;
+      } else {
+        delete payload[key];
+      }
+    });
 
-if (payload.salary != null) payload.salary = Number(payload.salary);
+    if (payload.salary != null) payload.salary = Number(payload.salary);
 
-onSubmit(payload);
+    onSubmit(payload);
   };
 
   return (
