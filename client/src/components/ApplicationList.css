@@ -935,3 +935,30 @@ background: #b91c1c !important;
     border-color: #dc2626;
   }
 }
+
+
+/* Cancel button */
+.app-form__actions .btn--ghost {
+  background-color: #dc2626;
+  color: #ffffff;
+  border: 1px solid #dc2626;
+  border-radius: 10px;
+  padding: 12px 24px;
+  min-height: 44px;
+  min-width: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.app-form__actions .btn--ghost:hover:not(:disabled) {
+  background-color: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.app-form__actions .btn--ghost:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
